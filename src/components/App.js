@@ -1,10 +1,16 @@
+import { Paper } from '@material-ui/core';
 import React from 'react';
+import TodoForm from './TodoForm';
+import TodoList from './TodoList';
 
 function App() {
   return (
-    <div>
-      <h2>Welcome in my todo-app</h2>
-    </div>
+    <>
+      <TodoForm />
+      <Paper>
+        <TodoList />
+      </Paper>
+    </>
   );
 }
 
