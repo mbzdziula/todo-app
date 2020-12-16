@@ -5,63 +5,77 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Checkbox, Typography } from '@material-ui/core';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import { Typography } from '@material-ui/core';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import PropTypes from 'prop-types';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+function TodoList(props) {
+  const actualTodos = props.todos.filter((e) => !e.IsDone);
+  const doneTodos = props.todos.filter((e) => e.IsDone);
 
-const rows = [
-  createData(
-    'Frozen yoghnfdvnl  sdkfjds sdkhf sdf hdshf odsh fsdhf dshfisdf sfs urt',
-    159,
-    6.0,
-    24,
-    4.0,
-  ),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+  const createRow = (array) => {
+    return array.map((e, index) => (
+      <TableRow key={index}>
+        <TableCell padding="checkbox">
+          {e.IsDone ? (
+            <IconButton
+              aria-label="unCheck"
+              disableFocusRipple
+              disableRipple
+              edge="end"
+              color="secondary"
+              onClick={() => props.doneTodo(e.Id)}
+            >
+              <CheckCircleIcon fontSize="small" />
+            </IconButton>
+          ) : (
+            <IconButton
+              aria-label="check"
+              disableFocusRipple
+              disableRipple
+              edge="end"
+              onClick={() => props.doneTodo(e.Id)}
+            >
+              <RadioButtonUncheckedIcon fontSize="small" />
+            </IconButton>
+          )}
+        </TableCell>
+        <TableCell padding="none">
+          <TableRow>
+            <Typography variant="body1" color={e.IsDone ? 'textSecondary' : 'textPrimary'}>
+              {e.Todo}
+            </Typography>
+          </TableRow>
+        </TableCell>
+        <TableCell padding="checkbox">
+          <IconButton aria-label="edit" disableFocusRipple disableRipple edge="end">
+            <EditIcon fontSize="small" />
+          </IconButton>
+        </TableCell>
+        <TableCell padding="checkbox">
+          <IconButton aria-label="delete" disableFocusRipple disableRipple edge="end">
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </TableCell>
+      </TableRow>
+    ));
+  };
 
-function TodoList() {
+  TodoList.propTypes = {
+    todos: PropTypes.object.isRequired,
+    doneTodo: PropTypes.func.isRequired,
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell padding="checkbox">
-                <Checkbox inputProps={{ 'aria-label': 'primary checkbox' }} />
-              </TableCell>
-              <TableCell padding="none">
-                <TableRow>
-                  <Typography variant="body1">{row.name}</Typography>
-                </TableRow>
-                <TableRow>
-                  <TableCell padding="none" style={{ border: 0 }}>
-                    <Typography variant="caption" color="textSecondary">
-                      {row.name}
-                    </Typography>
-                  </TableCell>
-                  <TableCell padding="none" style={{ border: 0 }}>
-                    <Typography variant="caption" color="textSecondary">
-                      15.12.2020
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableCell>
-              <TableCell padding="checkbox">
-                <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH" />
-              </TableCell>
-              <TableCell padding="checkbox">
-                <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH" />
-              </TableCell>
-            </TableRow>
-          ))}
+          {createRow(actualTodos)}
+          {createRow(doneTodos)}
         </TableBody>
       </Table>
     </TableContainer>
@@ -69,3 +83,20 @@ function TodoList() {
 }
 
 export default TodoList;
+
+{
+  /* SECOND ROW FORM DETAILS
+
+                <TableRow>
+                  <TableCell padding="none" style={{ border: 0 }}>
+                    <Typography variant="caption" color="textSecondary">
+                      {e.Id}
+                    </Typography>
+                  </TableCell>
+                  <TableCell padding="none" style={{ border: 0 }}>
+                    <Typography variant="caption" color="textSecondary">
+                      15.12.2020
+                    </Typography>
+                  </TableCell>
+                </TableRow> */
+}

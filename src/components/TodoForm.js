@@ -2,11 +2,10 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
+import AddIcon from '@material-ui/icons/Add';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,31 +21,35 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: 10,
   },
-  divider: {
-    height: 28,
-    margin: 4,
-  },
 }));
 
-export default function TodoForm() {
+export default function TodoForm(props) {
   const classes = useStyles();
 
+  TodoForm.propTypes = {
+    handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    todo: PropTypes.string.isRequired,
+  };
+
   return (
-    <Paper component="form" className={classes.root}>
+    <Paper component="form" className={classes.root} onSubmit={props.handleSubmit}>
       <IconButton className={classes.iconButton} aria-label="menu">
         <MenuIcon />
       </IconButton>
       <InputBase
         className={classes.input}
-        placeholder="Search Google Maps"
-        inputProps={{ 'aria-label': 'search google maps' }}
+        placeholder="Dodaj kolejne zadanie"
+        onChange={props.handleChange}
+        value={props.todo}
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-      <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={classes.iconButton} aria-label="directions">
-        <DirectionsIcon />
+      <IconButton
+        color="secondary"
+        className={classes.iconButton}
+        aria-label="add"
+        onSubmit={props.handleSubmit}
+      >
+        <AddIcon />
       </IconButton>
     </Paper>
   );
