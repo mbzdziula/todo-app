@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -26,6 +26,14 @@ const useStyles = makeStyles((theme) => ({
 export default function TodoForm(props) {
   const classes = useStyles();
 
+  const inputRef = useRef();
+
+  useEffect(() => {
+    inputRef.current.focus();
+    inputRef.current.selectionStart = inputRef.current.value.length;
+    inputRef.current.selectionEnd = inputRef.current.value.length;
+  });
+
   TodoForm.propTypes = {
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
@@ -42,12 +50,13 @@ export default function TodoForm(props) {
         placeholder="Dodaj kolejne zadanie"
         onChange={props.handleChange}
         value={props.todo}
+        inputRef={inputRef}
       />
       <IconButton
         color="secondary"
         className={classes.iconButton}
         aria-label="add"
-        onSubmit={props.handleSubmit}
+        onClick={props.handleSubmit}
       >
         <AddIcon />
       </IconButton>
