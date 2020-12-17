@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     flex: 1,
   },
+  done: {
+    backgroundColor: theme.palette.grey[200],
+  },
 }));
 
 function TodoList(props) {
@@ -58,7 +61,7 @@ function TodoList(props) {
 
   const createRow = (array) => {
     return array.map((e, index) => (
-      <TableRow key={index} selected={e.IsDone} hover>
+      <TableRow key={index} className={e.IsDone ? classes.done : ''}>
         <TableCell padding="checkbox">
           {e.IsDone ? (
             <IconButton
