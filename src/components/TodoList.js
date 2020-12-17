@@ -6,7 +6,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Typography } from '@material-ui/core';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
@@ -18,8 +18,18 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  task: {
+    marginLeft: theme.spacing(1),
+    flex: 1,
+  },
+}));
 
 function TodoList(props) {
+  const classes = useStyles();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [elementHandler, setElementHandler] = useState({});
   const handleClick = (event) => {
@@ -28,15 +38,23 @@ function TodoList(props) {
 
   const handleElement = (element) => {
     setElementHandler(element);
-    console.log(elementHandler);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const actualTodos = props.todos.filter((e) => !e.IsDone);
-  const doneTodos = props.todos.filter((e) => e.IsDone);
+  const actualTodos = props.todos
+    .filter((e) => !e.IsDone)
+    .sort((a, b) => {
+      return b.Like - a.Like;
+    });
+
+  const doneTodos = props.todos
+    .filter((e) => e.IsDone)
+    .sort((a, b) => {
+      return b.Like - a.Like;
+    });
 
   const createRow = (array) => {
     return array.map((e, index) => (
@@ -48,10 +66,9 @@ function TodoList(props) {
               disableFocusRipple
               disableRipple
               edge="end"
-              color="secondary"
               onClick={() => props.doneTodo(e.Id)}
             >
-              <CheckCircleIcon fontSize="small" />
+              <CheckCircleOutlineIcon fontSize="small" />
             </IconButton>
           ) : (
             <IconButton
@@ -66,9 +83,37 @@ function TodoList(props) {
           )}
         </TableCell>
         <TableCell padding="none">
-          <Typography variant="body1" color={e.IsDone ? 'textSecondary' : 'textPrimary'}>
+          <Typography
+            variant="body1"
+            color={e.IsDone ? 'textSecondary' : 'textPrimary'}
+            className={classes.task}
+          >
             {e.Todo}
           </Typography>
+        </TableCell>
+        <TableCell padding="checkbox">
+          {e.Like === 0 ? (
+            <IconButton
+              aria-label="unCheck"
+              disableFocusRipple
+              disableRipple
+              edge="end"
+              onClick={() => props.handleLikeTodo(e.Id)}
+            >
+              <FavoriteBorderIcon fontSize="small" />
+            </IconButton>
+          ) : (
+            <IconButton
+              aria-label="check"
+              disableFocusRipple
+              disableRipple
+              edge="end"
+              color="primary"
+              onClick={() => props.handleLikeTodo(e.Id)}
+            >
+              <FavoriteIcon fontSize="small" />
+            </IconButton>
+          )}
         </TableCell>
 
         <TableCell padding="checkbox">
@@ -88,6 +133,16 @@ function TodoList(props) {
             keepMounted
             open={Boolean(anchorEl)}
             onClose={handleClose}
+            elevation={1}
+            getContentAnchorEl={null}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
           >
             <MenuItem
               onClick={() => {
@@ -122,6 +177,7 @@ function TodoList(props) {
     doneTodo: PropTypes.func.isRequired,
     handleEditTodo: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
+    handleLikeTodo: PropTypes.func.isRequired,
   };
 
   return (
@@ -139,47 +195,3 @@ function TodoList(props) {
 }
 
 export default TodoList;
-
-{
-  /* SECOND ROW FORM DETAILS
-
-                <TableRow>
-                  <TableCell padding="none" style={{ border: 0 }}>
-                    <Typography variant="caption" color="textSecondary">
-                      {e.Id}
-                    </Typography>
-                  </TableCell>
-                  <TableCell padding="none" style={{ border: 0 }}>
-                    <Typography variant="caption" color="textSecondary">
-                      15.12.2020
-                    </Typography>
-                  </TableCell>
-                </TableRow> */
-}
-
-// FAV ICON
-
-//         <TableCell padding="checkbox">
-//           {e.Like === 0 ? (
-//             <IconButton
-//               aria-label="unCheck"
-//               disableFocusRipple
-//               disableRipple
-//               edge="end"
-//               color="secondary"
-//               onClick={() => props.handleLikeTodo(e.Id)}
-//             >
-//               <FavoriteBorderIcon fontSize="small" />
-//             </IconButton>
-//           ) : (
-//             <IconButton
-//               aria-label="check"
-//               disableFocusRipple
-//               disableRipple
-//               edge="end"
-//               onClick={() => props.handleLikeTodo(e.Id)}
-//             >
-//               <FavoriteIcon fontSize="small" />
-//             </IconButton>
-//           )}
-//         </TableCell>;

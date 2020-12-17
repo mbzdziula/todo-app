@@ -53,7 +53,7 @@ export default function TodoForm(props) {
         inputRef={inputRef}
       />
       <IconButton
-        color="secondary"
+        color="primary"
         className={classes.iconButton}
         aria-label="add"
         onClick={props.handleSubmit}
