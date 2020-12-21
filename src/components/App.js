@@ -1,11 +1,11 @@
 import { Paper } from '@material-ui/core';
 import React, { useState } from 'react';
 import TodoForm from './TodoForm';
-import TodoList from './TodoList';
+import TodoList from './todo-list/TodoList';
 
 function App() {
-  const [todo, setTodo] = useState();
-  const [idTodos, setIdTodos] = useState(0);
+  const [todo, setTodo] = useState('');
+  const [idTodos, setIdTodos] = useState(1);
   const [todos, setTodos] = useState([]);
   const [currentId, setCurrentId] = useState(0);
 
