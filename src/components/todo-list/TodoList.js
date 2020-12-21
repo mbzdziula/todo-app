@@ -11,6 +11,7 @@ import CheckTodo from './CheckTodo';
 import LikeTodo from './LikeTodo';
 import ContainerTodo from './ContainerTodo';
 import MoreIcon from './MoreIcon';
+import * as types from '../actionTypes';
 
 const useStyles = makeStyles((theme) => ({
   done: {
@@ -37,18 +38,24 @@ function TodoList(props) {
     return array.map((e, index) => (
       <TableRow key={index} className={e.IsDone ? classes.done : ''}>
         <TableCell padding="checkbox">
-          <CheckTodo doneTodo={() => props.doneTodo(e.Id)} IsDone={e.IsDone} />
+          <CheckTodo
+            doneTodo={() => props.dispatch({ type: types.DONE_TODO, id: e.Id })}
+            IsDone={e.IsDone}
+          />
         </TableCell>
         <TableCell padding="none">
           <ContainerTodo IsDone={e.IsDone} Todo={e.Todo} />
         </TableCell>
         <TableCell padding="checkbox">
-          <LikeTodo Like={e.Like} handleLikeTodo={() => props.handleLikeTodo(e.Id)} />
+          <LikeTodo
+            Like={e.Like}
+            handleLikeTodo={() => props.dispatch({ type: types.LIKE_TODO, id: e.Id })}
+          />
         </TableCell>
         <TableCell padding="checkbox">
           <MoreIcon
             element={e}
-            deleteTodo={props.deleteTodo}
+            deleteTodo={() => props.dispatch({ type: types.DELETE_TODO, id: e.Id })}
             handleEditTodo={props.handleEditTodo}
           />
         </TableCell>
@@ -58,10 +65,8 @@ function TodoList(props) {
 
   TodoList.propTypes = {
     todos: PropTypes.array.isRequired,
-    doneTodo: PropTypes.func.isRequired,
     handleEditTodo: PropTypes.func.isRequired,
-    deleteTodo: PropTypes.func.isRequired,
-    handleLikeTodo: PropTypes.func.isRequired,
+    dispatch: PropTypes.func.isRequired,
   };
 
   return (
