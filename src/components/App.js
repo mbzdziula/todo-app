@@ -25,9 +25,9 @@ function App() {
     const newTodos = todos.map((element) =>
       element.Id === id
         ? element.IsDone
-          ? { Id: element.Id, Todo: element.Todo, IsDone: false, Like: element.Like }
-          : { Id: element.Id, Todo: element.Todo, IsDone: true, Like: element.Like }
-        : { Id: element.Id, Todo: element.Todo, IsDone: element.IsDone, Like: element.Like },
+          ? { ...element, IsDone: false }
+          : { ...element, IsDone: true }
+        : element,
     );
     setTodos(newTodos);
   };
@@ -46,11 +46,10 @@ function App() {
   };
 
   const editTodo = () => {
-    const editTodos = todos.map((e) =>
-      e.Id === currentId
-        ? { Id: currentId, Todo: todo, IsDone: e.IsDone, Like: e.Like }
-        : { Id: e.Id, Todo: e.Todo, IsDone: e.IsDone, Like: e.Like },
+    const editTodos = todos.map((element) =>
+      element.Id === currentId ? { ...element, Id: currentId, Todo: todo } : element,
     );
+    console.log(editTodos);
     setTodos(editTodos);
     setTodo('');
     setCurrentId(0);
@@ -62,12 +61,12 @@ function App() {
   };
 
   const handleLikeTodo = (id) => {
-    const likeTodos = todos.map((e) =>
-      e.Id === id
-        ? e.Like === 0
-          ? { Id: e.Id, Todo: e.Todo, IsDone: e.IsDone, Like: 1 }
-          : { Id: e.Id, Todo: e.Todo, IsDone: e.IsDone, Like: 0 }
-        : { Id: e.Id, Todo: e.Todo, IsDone: e.IsDone, Like: e.Like },
+    const likeTodos = todos.map((element) =>
+      element.Id === id
+        ? element.Like === 0
+          ? { ...element, Like: 1 }
+          : { ...element, Like: 0 }
+        : element,
     );
     setTodos(likeTodos);
   };
