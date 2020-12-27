@@ -22,7 +22,7 @@ function App() {
       case types.DELETE_TODO:
         return deleteTodo(state, action.id);
       case types.LIKE_TODO:
-        return likeTodos(state, action.id);
+        return likeTodo(state, action.id);
       default:
         return state;
     }
@@ -65,7 +65,7 @@ function App() {
     return updatingTodos;
   };
 
-  const likeTodos = (state, id) => {
+  const likeTodo = (state, id) => {
     const likeTodos = state.map((element) =>
       element.Id === id
         ? element.Like === 0
