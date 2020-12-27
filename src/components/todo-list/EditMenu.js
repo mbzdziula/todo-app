@@ -15,7 +15,7 @@ function EditMenu(props) {
     handleEditTodo: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
     handleClose: PropTypes.func.isRequired,
-    elementHandler: PropTypes.object.isRequired,
+    element: PropTypes.object.isRequired,
   };
 
   return (

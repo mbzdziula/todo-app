@@ -9,15 +9,11 @@ function MoreIcon(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const [elementHandler, setElementHandler] = useState({});
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleElement = (element) => {
-    setElementHandler(element);
-  };
   return (
     <>
       <IconButton
@@ -25,7 +21,6 @@ function MoreIcon(props) {
         disableFocusRipple
         disableRipple
         edge="end"
-        onMouseEnter={() => handleElement(props.element)}
         onClick={handleClick}
       >
         <MoreVertIcon fontSize="small" />

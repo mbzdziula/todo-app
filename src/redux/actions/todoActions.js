@@ -9,7 +9,7 @@ export function doneTodo(id) {
 }
 
 export function editTodo(currentId, todo) {
-  return { type: types.NEW_TODO, currentId, todo };
+  return { type: types.EDIT_TODO, currentId, todo };
 }
 
 export function deleteTodo(id) {
