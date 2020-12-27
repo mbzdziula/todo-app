@@ -11,7 +11,7 @@ import CheckTodo from './CheckTodo';
 import LikeTodo from './LikeTodo';
 import ContainerTodo from './ContainerTodo';
 import MoreIcon from './MoreIcon';
-import * as types from '../actionTypes';
+import * as types from '../todoReducer/actionTypes';
 
 const useStyles = makeStyles((theme) => ({
   done: {
