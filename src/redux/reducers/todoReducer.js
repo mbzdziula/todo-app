@@ -1,6 +1,7 @@
-import * as types from './actionTypes';
+import * as types from '../actions/actionTypes';
+import initialState from './initialState';
 
-const todoReducer = (state, action) => {
+const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.NEW_TODO:
       return newTodo(state, action.idTodos, action.todo);

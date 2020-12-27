@@ -11,7 +11,8 @@ import CheckTodo from './CheckTodo';
 import LikeTodo from './LikeTodo';
 import ContainerTodo from './ContainerTodo';
 import MoreIcon from './MoreIcon';
-import * as types from '../todoReducer/actionTypes';
+import * as todoActions from '../../redux/actions/todoActions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   done: {
@@ -38,26 +39,16 @@ function TodoList(props) {
     return array.map((e, index) => (
       <TableRow key={index} className={e.IsDone ? classes.done : ''}>
         <TableCell padding="checkbox">
-          <CheckTodo
-            doneTodo={() => props.dispatch({ type: types.DONE_TODO, id: e.Id })}
-            IsDone={e.IsDone}
-          />
+          <CheckTodo doneTodo={() => props.doneTodo(e.Id)} IsDone={e.IsDone} />
         </TableCell>
         <TableCell padding="none">
           <ContainerTodo IsDone={e.IsDone} Todo={e.Todo} />
         </TableCell>
         <TableCell padding="checkbox">
-          <LikeTodo
-            Like={e.Like}
-            handleLikeTodo={() => props.dispatch({ type: types.LIKE_TODO, id: e.Id })}
-          />
+          <LikeTodo Like={e.Like} handleLikeTodo={() => props.likeTodo(e.Id)} />
         </TableCell>
         <TableCell padding="checkbox">
-          <MoreIcon
-            element={e}
-            deleteTodo={() => props.dispatch({ type: types.DELETE_TODO, id: e.Id })}
-            handleEditTodo={props.handleEditTodo}
-          />
+          <MoreIcon element={e} handleEditTodo={props.handleEditTodo} />
         </TableCell>
       </TableRow>
     ));
@@ -66,7 +57,8 @@ function TodoList(props) {
   TodoList.propTypes = {
     todos: PropTypes.array.isRequired,
     handleEditTodo: PropTypes.func.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    likeTodo: PropTypes.func.isRequired,
+    doneTodo: PropTypes.func.isRequired,
   };
 
   return (
@@ -83,4 +75,18 @@ function TodoList(props) {
   );
 }
 
-export default TodoList;
+function mapStateToProps(state) {
+  return {
+    todos: state,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    likeTodo: (id) => dispatch(todoActions.likeTodo(id)),
+    doneTodo: (id) => dispatch(todoActions.doneTodo(id)),
+    deleteTodo: (id) => dispatch(todoActions.deleteTodo(id)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

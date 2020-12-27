@@ -6,6 +6,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import * as todoActions from '../../redux/actions/todoActions';
+import { connect } from 'react-redux';
 
 function EditMenu(props) {
   EditMenu.propTypes = {
@@ -37,7 +39,7 @@ function EditMenu(props) {
       <MenuItem
         onClick={() => {
           props.handleClose();
-          props.handleEditTodo(props.elementHandler);
+          props.handleEditTodo(props.element);
         }}
       >
         <ListItemIcon>
@@ -48,7 +50,7 @@ function EditMenu(props) {
       <MenuItem
         onClick={() => {
           props.handleClose();
-          props.deleteTodo(props.elementHandler);
+          props.deleteTodo(props.element.Id);
         }}
       >
         <ListItemIcon>
@@ -60,4 +62,16 @@ function EditMenu(props) {
   );
 }
 
-export default EditMenu;
+function mapStateToProps(state) {
+  return {
+    todos: state,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    deleteTodo: (id) => dispatch(todoActions.deleteTodo(id)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditMenu);

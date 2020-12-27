@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-
 import PropTypes from 'prop-types';
 import EditMenu from './EditMenu';
 
@@ -35,8 +34,7 @@ function MoreIcon(props) {
         anchorEl={anchorEl}
         handleClose={handleClose}
         handleEditTodo={props.handleEditTodo}
-        elementHandler={elementHandler}
-        deleteTodo={props.deleteTodo}
+        element={props.element}
       />
     </>
   );

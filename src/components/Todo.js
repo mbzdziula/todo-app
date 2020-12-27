@@ -1,17 +1,15 @@
 import { Paper } from '@material-ui/core';
-import React, { useState, useReducer, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoForm from './TodoForm';
 import TodoList from './todo-list/TodoList';
-import * as types from './todoReducer/actionTypes';
-import todoReducer from './todoReducer';
-import initialState from './todoReducer/initialState';
+import { newTodo, editTodo } from '../redux/actions/todoActions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-function Todo() {
+function Todo(props) {
   const [todo, setTodo] = useState('');
   const [idTodos, setIdTodos] = useState(1);
   const [currentId, setCurrentId] = useState(0);
-
-  const [todos, dispatch] = useReducer(todoReducer, initialState);
 
   const handleChange = (event) => {
     setTodo(event.target.value);
@@ -22,9 +20,7 @@ function Todo() {
     if (!todo || /^\s*$/.test(todo)) {
       return;
     }
-    currentId === 0
-      ? dispatch({ type: types.NEW_TODO, idTodos, todo })
-      : dispatch({ type: types.EDIT_TODO, currentId, todo });
+    currentId === 0 ? props.newTodo(idTodos, todo) : props.editTodo(currentId, todo);
   };
 
   const handleEditTodo = (task) => {
@@ -34,18 +30,36 @@ function Todo() {
 
   useEffect(() => {
     setTodo('');
+    console.log(props.todos);
     currentId === 0 ? setIdTodos(idTodos + 1) : setCurrentId(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todos]);
+  }, [props.todos]);
+
+  Todo.propTypes = {
+    todos: PropTypes.array.isRequired,
+    newTodo: PropTypes.func.isRequired,
+    editTodo: PropTypes.func.isRequired,
+  };
 
   return (
     <>
       <TodoForm handleChange={handleChange} handleSubmit={handleSubmit} todo={todo} />
       <Paper>
-        <TodoList todos={todos} dispatch={dispatch} handleEditTodo={handleEditTodo} />
+        <TodoList handleEditTodo={handleEditTodo} />
       </Paper>
     </>
   );
 }
 
-export default Todo;
+function mapStateToProps(state) {
+  return {
+    todos: state,
+  };
+}
+
+const mapDispatchToProps = {
+  newTodo,
+  editTodo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Todo);
