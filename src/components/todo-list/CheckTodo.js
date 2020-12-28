@@ -3,15 +3,17 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import IconButton from '@material-ui/core/IconButton';
 import PropTypes from 'prop-types';
+import { doneTodo } from '../../redux/actions/todoActions';
+import { connect } from 'react-redux';
 
 function CheckTodo(props) {
-  return props.IsDone ? (
+  return props.element.IsDone ? (
     <IconButton
       aria-label="unCheck"
       disableFocusRipple
       disableRipple
       edge="end"
-      onClick={() => props.doneTodo()}
+      onClick={() => props.doneTodo(props.element.Id)}
     >
       <CheckCircleOutlineIcon fontSize="small" />
     </IconButton>
@@ -21,7 +23,7 @@ function CheckTodo(props) {
       disableFocusRipple
       disableRipple
       edge="end"
-      onClick={() => props.doneTodo()}
+      onClick={() => props.doneTodo(props.element.Id)}
     >
       <RadioButtonUncheckedIcon fontSize="small" />
     </IconButton>
@@ -29,8 +31,16 @@ function CheckTodo(props) {
 }
 
 CheckTodo.propTypes = {
-  IsDone: PropTypes.bool.isRequired,
+  element: PropTypes.object.isRequired,
   doneTodo: PropTypes.func.isRequired,
 };
 
-export default CheckTodo;
+function mapStateToProps() {
+  return {};
+}
+
+const mapDispatchToProps = {
+  doneTodo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckTodo);

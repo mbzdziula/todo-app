@@ -17,17 +17,16 @@ function ContainerTodo(props) {
   return (
     <Typography
       variant="body1"
-      color={props.IsDone ? 'textSecondary' : 'textPrimary'}
+      color={props.element.IsDone ? 'textSecondary' : 'textPrimary'}
       className={classes.task}
     >
-      {props.Todo}
+      {props.element.Todo}
     </Typography>
   );
 }
 
 ContainerTodo.propTypes = {
-  IsDone: PropTypes.bool.isRequired,
-  Todo: PropTypes.string.isRequired,
+  element: PropTypes.object.isRequired,
 };
 
 export default ContainerTodo;

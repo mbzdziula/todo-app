@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 
-export function newTodo(idTodos, todo) {
-  return { type: types.NEW_TODO, idTodos, todo };
+export function newTodo() {
+  return { type: types.NEW_TODO };
 }
 
 export function doneTodo(id) {
@@ -18,4 +18,12 @@ export function deleteTodo(id) {
 
 export function likeTodo(id) {
   return { type: types.LIKE_TODO, id };
+}
+
+export function handleChange(event) {
+  return { type: types.HANDLE_CHANGE, event };
+}
+
+export function handleEdit(element) {
+  return { type: types.HANDLE_EDIT, element };
 }

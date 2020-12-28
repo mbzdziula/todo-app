@@ -6,18 +6,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import * as todoActions from '../../redux/actions/todoActions';
+import { deleteTodo, handleEdit } from '../../redux/actions/todoActions';
 import { connect } from 'react-redux';
 
 function EditMenu(props) {
-  EditMenu.propTypes = {
-    anchorEl: PropTypes.object,
-    handleEditTodo: PropTypes.func.isRequired,
-    deleteTodo: PropTypes.func.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    element: PropTypes.object.isRequired,
-  };
-
   return (
     <Menu
       id="simple-menu"
@@ -39,7 +31,7 @@ function EditMenu(props) {
       <MenuItem
         onClick={() => {
           props.handleClose();
-          props.handleEditTodo(props.element);
+          props.handleEdit(props.element);
         }}
       >
         <ListItemIcon>
@@ -62,16 +54,23 @@ function EditMenu(props) {
   );
 }
 
+EditMenu.propTypes = {
+  anchorEl: PropTypes.object,
+  handleEdit: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  element: PropTypes.object.isRequired,
+};
+
 function mapStateToProps(state) {
   return {
-    todos: state,
+    todos: state.todos,
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    deleteTodo: (id) => dispatch(todoActions.deleteTodo(id)),
-  };
-}
+const mapDispatchToProps = {
+  deleteTodo,
+  handleEdit,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditMenu);

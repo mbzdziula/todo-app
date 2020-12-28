@@ -25,20 +25,13 @@ function MoreIcon(props) {
       >
         <MoreVertIcon fontSize="small" />
       </IconButton>
-      <EditMenu
-        anchorEl={anchorEl}
-        handleClose={handleClose}
-        handleEditTodo={props.handleEditTodo}
-        element={props.element}
-      />
+      <EditMenu anchorEl={anchorEl} handleClose={handleClose} element={props.element} />
     </>
   );
 }
 
 MoreIcon.propTypes = {
   element: PropTypes.object.isRequired,
-  deleteTodo: PropTypes.func.isRequired,
-  handleEditTodo: PropTypes.func.isRequired,
 };
 
 export default MoreIcon;
