@@ -41,7 +41,8 @@ function TodoForm(props) {
     if (!props.todo || /^\s*$/.test(props.todo)) {
       return;
     }
-    props.currentId === 0 ? props.newTodo() : props.editTodo();
+
+    props.currentId === 0 ? props.newTodo(props.todo) : props.editTodo(props.currentId, props.todo);
   };
 
   return (

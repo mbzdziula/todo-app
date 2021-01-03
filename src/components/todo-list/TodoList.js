@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,7 +11,7 @@ import CheckTodo from './CheckTodo';
 import LikeTodo from './LikeTodo';
 import ContainerTodo from './ContainerTodo';
 import MoreIcon from './MoreIcon';
-import { likeTodo, doneTodo } from '../../redux/actions/todoActions';
+import { likeTodo, doneTodo, fetchTodos } from '../../redux/actions/todoActions';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 function TodoList(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    props.fetchTodos();
+  }, []);
 
   const actualTodos = props.todos
     .filter((e) => !e.IsDone)
@@ -72,6 +76,7 @@ TodoList.propTypes = {
   todos: PropTypes.array.isRequired,
   likeTodo: PropTypes.func.isRequired,
   doneTodo: PropTypes.func.isRequired,
+  fetchTodos: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -83,6 +88,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   likeTodo,
   doneTodo,
+  fetchTodos,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

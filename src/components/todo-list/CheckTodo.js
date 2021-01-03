@@ -13,7 +13,7 @@ function CheckTodo(props) {
       disableFocusRipple
       disableRipple
       edge="end"
-      onClick={() => props.doneTodo(props.element.Id)}
+      onClick={() => props.doneTodo(props.element)}
     >
       <CheckCircleOutlineIcon fontSize="small" />
     </IconButton>
@@ -23,7 +23,7 @@ function CheckTodo(props) {
       disableFocusRipple
       disableRipple
       edge="end"
-      onClick={() => props.doneTodo(props.element.Id)}
+      onClick={() => props.doneTodo(props.element)}
     >
       <RadioButtonUncheckedIcon fontSize="small" />
     </IconButton>

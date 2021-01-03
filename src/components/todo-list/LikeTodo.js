@@ -14,7 +14,7 @@ function LikeTodo(props) {
       disableFocusRipple
       disableRipple
       edge="end"
-      onClick={() => props.likeTodo(props.element.Id)}
+      onClick={() => props.likeTodo(props.element)}
     >
       <FavoriteBorderIcon fontSize="small" />
     </IconButton>
@@ -25,7 +25,7 @@ function LikeTodo(props) {
       disableRipple
       edge="end"
       color="primary"
-      onClick={() => props.likeTodo(props.element.Id)}
+      onClick={() => props.likeTodo(props.element)}
     >
       <FavoriteIcon fontSize="small" />
     </IconButton>
