@@ -2,17 +2,19 @@ import React from 'react';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
+import { likeTodo } from '../../redux/actions/todoActions';
+import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
 
 function LikeTodo(props) {
-  return props.Like === 0 ? (
+  return props.element.Like === 0 ? (
     <IconButton
       aria-label="unCheck"
       disableFocusRipple
       disableRipple
       edge="end"
-      onClick={() => props.handleLikeTodo()}
+      onClick={() => props.likeTodo(props.element)}
     >
       <FavoriteBorderIcon fontSize="small" />
     </IconButton>
@@ -23,7 +25,7 @@ function LikeTodo(props) {
       disableRipple
       edge="end"
       color="primary"
-      onClick={() => props.handleLikeTodo()}
+      onClick={() => props.likeTodo(props.element)}
     >
       <FavoriteIcon fontSize="small" />
     </IconButton>
@@ -31,8 +33,16 @@ function LikeTodo(props) {
 }
 
 LikeTodo.propTypes = {
-  Like: PropTypes.number.isRequired,
-  handleLikeTodo: PropTypes.func.isRequired,
+  element: PropTypes.object.isRequired,
+  likeTodo: PropTypes.func.isRequired,
 };
 
-export default LikeTodo;
+function mapStateToProps() {
+  return {};
+}
+
+const mapDispatchToProps = {
+  likeTodo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LikeTodo);

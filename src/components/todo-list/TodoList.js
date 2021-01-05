@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,6 +11,8 @@ import CheckTodo from './CheckTodo';
 import LikeTodo from './LikeTodo';
 import ContainerTodo from './ContainerTodo';
 import MoreIcon from './MoreIcon';
+import { likeTodo, doneTodo, fetchTodos } from '../../redux/actions/todoActions';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   done: {
@@ -20,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
 
 function TodoList(props) {
   const classes = useStyles();
+
+  useEffect(() => {
+    props.fetchTodos();
+  }, []);
 
   const actualTodos = props.todos
     .filter((e) => !e.IsDone)
@@ -34,34 +40,22 @@ function TodoList(props) {
     });
 
   const createRow = (array) => {
-    return array.map((e, index) => (
-      <TableRow key={index} className={e.IsDone ? classes.done : ''}>
+    return array.map((element, index) => (
+      <TableRow key={index} className={element.IsDone ? classes.done : ''}>
         <TableCell padding="checkbox">
-          <CheckTodo doneTodo={() => props.doneTodo(e.Id)} IsDone={e.IsDone} />
+          <CheckTodo element={element} />
         </TableCell>
         <TableCell padding="none">
-          <ContainerTodo IsDone={e.IsDone} Todo={e.Todo} />
+          <ContainerTodo element={element} />
         </TableCell>
         <TableCell padding="checkbox">
-          <LikeTodo Like={e.Like} handleLikeTodo={() => props.handleLikeTodo(e.Id)} />
+          <LikeTodo element={element} />
         </TableCell>
         <TableCell padding="checkbox">
-          <MoreIcon
-            element={e}
-            deleteTodo={props.deleteTodo}
-            handleEditTodo={props.handleEditTodo}
-          />
+          <MoreIcon element={element} />
         </TableCell>
       </TableRow>
     ));
-  };
-
-  TodoList.propTypes = {
-    todos: PropTypes.array.isRequired,
-    doneTodo: PropTypes.func.isRequired,
-    handleEditTodo: PropTypes.func.isRequired,
-    deleteTodo: PropTypes.func.isRequired,
-    handleLikeTodo: PropTypes.func.isRequired,
   };
 
   return (
@@ -78,4 +72,23 @@ function TodoList(props) {
   );
 }
 
-export default TodoList;
+TodoList.propTypes = {
+  todos: PropTypes.array.isRequired,
+  likeTodo: PropTypes.func.isRequired,
+  doneTodo: PropTypes.func.isRequired,
+  fetchTodos: PropTypes.func.isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    todos: state.todos,
+  };
+}
+
+const mapDispatchToProps = {
+  likeTodo,
+  doneTodo,
+  fetchTodos,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
