@@ -19,8 +19,8 @@ const axiosTodos = axios.create({
 
 export function fetchTodos() {
   return (dispatch) => {
-    axiosTodos.get('').then((response) => {
-      const todos = response.data;
+    axiosTodos.get('').then(async (response) => {
+      const todos = await response.data;
       dispatch(getTodosFromDb(todos));
     });
   };
