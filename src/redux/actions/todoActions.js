@@ -14,7 +14,7 @@ export function getTodosFromDb(todos) {
 }
 
 const axiosTodos = axios.create({
-  baseURL: 'https://sheltered-brushlands-63640.herokuapp.com/api/todos',
+  baseURL: 'https://todo-app-mb.herokuapp.com/api/todos',
 });
 
 export function fetchTodos() {
