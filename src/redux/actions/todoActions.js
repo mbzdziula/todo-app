@@ -19,10 +19,8 @@ const axiosTodos = axios.create({
 
 export function fetchTodos() {
   return async (dispatch) => {
-    await axiosTodos.get('').then(async (response) => {
-      const todos = await response.data;
-      dispatch(getTodosFromDb(todos));
-    });
+    const todos = await axiosTodos.get('');
+    await dispatch(getTodosFromDb(todos));
   };
 }
 
@@ -48,7 +46,8 @@ export function doneTodo(element) {
     } else {
       Todo = { Id: element.Id, IsDone: true };
     }
-    await axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
+    await axiosTodos.patch('', Todo);
+    await dispatch(fetchTodos());
   };
 }
 
