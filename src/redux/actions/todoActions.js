@@ -27,46 +27,46 @@ export function fetchTodos() {
 }
 
 export function newTodo(todo) {
-  return (dispatch) => {
+  return async (dispatch) => {
     const Todo = { Todo: todo };
-    axiosTodos.post('', Todo).then(dispatch(fetchTodos()));
+    await axiosTodos.post('', Todo).then(dispatch(fetchTodos()));
   };
 }
 
 export function deleteTodo(id) {
-  return (dispatch) => {
+  return async (dispatch) => {
     const Todo = { Id: id };
-    axiosTodos.delete('', { data: Todo }).then(dispatch(fetchTodos()));
+    await axiosTodos.delete('', { data: Todo }).then(dispatch(fetchTodos()));
   };
 }
 
 export function doneTodo(element) {
-  return (dispatch) => {
+  return async (dispatch) => {
     let Todo;
     if (element.IsDone) {
       Todo = { Id: element.Id, IsDone: false };
     } else {
       Todo = { Id: element.Id, IsDone: true };
     }
-    axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
+    await axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
   };
 }
 
 export function likeTodo(element) {
-  return (dispatch) => {
+  return async (dispatch) => {
     let Todo;
     if (element.Like === 0) {
       Todo = { Id: element.Id, Like: 1 };
     } else {
       Todo = { Id: element.Id, Like: 0 };
     }
-    axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
+    await axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
   };
 }
 
 export function editTodo(id, todo) {
-  return (dispatch) => {
+  return async (dispatch) => {
     const Todo = { Id: id, Todo: todo };
-    axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
+    await axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
   };
 }
