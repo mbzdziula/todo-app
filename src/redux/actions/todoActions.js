@@ -18,10 +18,10 @@ const axiosTodos = axios.create({
 });
 
 export function fetchTodos() {
-  return async (dispatch) => {
-    await axiosTodos.get('').then(async (response) => {
-      const todos = await response.data;
-      await dispatch(getTodosFromDb(todos));
+  return (dispatch) => {
+    axiosTodos.get('').then(async (response) => {
+      const todos = response.data;
+      dispatch(getTodosFromDb(todos));
     });
   };
 }
@@ -30,7 +30,7 @@ export function newTodo(todo) {
   return async (dispatch) => {
     const Todo = { Todo: todo };
     await axiosTodos.post('', Todo);
-    await dispatch(fetchTodos());
+    dispatch(fetchTodos());
   };
 }
 
@@ -38,7 +38,7 @@ export function deleteTodo(id) {
   return async (dispatch) => {
     const Todo = { Id: id };
     await axiosTodos.delete('', { data: Todo });
-    await dispatch(fetchTodos());
+    dispatch(fetchTodos());
   };
 }
 
@@ -51,7 +51,7 @@ export function doneTodo(element) {
       Todo = { Id: element.Id, IsDone: true };
     }
     await axiosTodos.patch('', Todo);
-    await dispatch(fetchTodos());
+    dispatch(fetchTodos());
   };
 }
 
@@ -64,7 +64,7 @@ export function likeTodo(element) {
       Todo = { Id: element.Id, Like: 0 };
     }
     await axiosTodos.patch('', Todo);
-    await dispatch(fetchTodos());
+    dispatch(fetchTodos());
   };
 }
 
@@ -72,6 +72,6 @@ export function editTodo(id, todo) {
   return async (dispatch) => {
     const Todo = { Id: id, Todo: todo };
     await axiosTodos.patch('', Todo);
-    await dispatch(fetchTodos());
+    dispatch(fetchTodos());
   };
 }
