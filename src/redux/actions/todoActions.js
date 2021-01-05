@@ -29,14 +29,16 @@ export function fetchTodos() {
 export function newTodo(todo) {
   return async (dispatch) => {
     const Todo = { Todo: todo };
-    await axiosTodos.post('', Todo).then(dispatch(fetchTodos()));
+    await axiosTodos.post('', Todo);
+    await dispatch(fetchTodos());
   };
 }
 
 export function deleteTodo(id) {
   return async (dispatch) => {
     const Todo = { Id: id };
-    await axiosTodos.delete('', { data: Todo }).then(dispatch(fetchTodos()));
+    await axiosTodos.delete('', { data: Todo });
+    await dispatch(fetchTodos());
   };
 }
 
@@ -61,13 +63,15 @@ export function likeTodo(element) {
     } else {
       Todo = { Id: element.Id, Like: 0 };
     }
-    await axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
+    await axiosTodos.patch('', Todo);
+    await dispatch(fetchTodos());
   };
 }
 
 export function editTodo(id, todo) {
   return async (dispatch) => {
     const Todo = { Id: id, Todo: todo };
-    await axiosTodos.patch('', Todo).then(dispatch(fetchTodos()));
+    await axiosTodos.patch('', Todo);
+    await dispatch(fetchTodos());
   };
 }
