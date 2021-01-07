@@ -28,24 +28,22 @@ function Todo(props) {
     };
   }, []);
 
-  useEffect(() => {
-    if (loading) {
-      return (
-        <div className={classes.root}>
-          <CircularProgress size="7rem" />
-        </div>
-      );
-    }
-  }, [loading]);
-
-  return (
-    <>
-      <TodoForm />
-      <Paper>
-        <TodoList />
-      </Paper>
-    </>
-  );
+  if (loading) {
+    return (
+      <div className={classes.root}>
+        <CircularProgress size="7rem" />
+      </div>
+    );
+  } else {
+    return (
+      <>
+        <TodoForm />
+        <Paper>
+          <TodoList />
+        </Paper>
+      </>
+    );
+  }
 }
 
 TodoList.propTypes = {
