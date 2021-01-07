@@ -45,10 +45,10 @@ export function deleteTodo(id) {
 export function doneTodo(element) {
   return async (dispatch) => {
     let Todo;
-    if (!element.IsDone) {
-      Todo = { Id: element.Id, IsDone: true };
-    } else {
+    if (element.IsDone) {
       Todo = { Id: element.Id, IsDone: false };
+    } else {
+      Todo = { Id: element.Id, IsDone: true };
     }
     await axiosTodos.patch('', Todo);
     dispatch(fetchTodos());
