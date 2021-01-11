@@ -29,7 +29,19 @@ export default async function handler(req, res) {
       return res.json(result);
     }
     default: {
-      const result = await prisma.todos.findMany();
+      const result = await prisma.todos.findMany({
+        orderBy: [
+          {
+            IsDone: 'asc',
+          },
+          {
+            Like: 'desc',
+          },
+          {
+            Id: 'asc',
+          },
+        ],
+      });
       return res.json(result);
     }
   }

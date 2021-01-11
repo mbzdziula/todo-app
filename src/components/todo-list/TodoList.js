@@ -27,18 +27,6 @@ function TodoList(props) {
     props.fetchTodos();
   }, []);
 
-  const actualTodos = props.todos
-    .filter((e) => !e.IsDone)
-    .sort((a, b) => {
-      return b.Like - a.Like;
-    });
-
-  const doneTodos = props.todos
-    .filter((e) => e.IsDone)
-    .sort((a, b) => {
-      return b.Like - a.Like;
-    });
-
   const createRow = (array) => {
     return array.map((element, index) => (
       <TableRow key={index} className={element.IsDone ? classes.done : ''}>
@@ -62,10 +50,7 @@ function TodoList(props) {
     <>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
-          <TableBody>
-            {createRow(actualTodos)}
-            {createRow(doneTodos)}
-          </TableBody>
+          <TableBody>{createRow(props.todos)}</TableBody>
         </Table>
       </TableContainer>
     </>
