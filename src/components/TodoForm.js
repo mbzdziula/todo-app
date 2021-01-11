@@ -6,8 +6,11 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PropTypes from 'prop-types';
 import { handleChange, newTodo, editTodo } from '../redux/actions/todoActions';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2),
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -22,6 +26,13 @@ const useStyles = makeStyles((theme) => ({
   },
   iconButton: {
     padding: 10,
+  },
+  button: {
+    marginLeft: theme.spacing(1),
+  },
+  divider: {
+    height: 28,
+    margin: 4,
   },
 }));
 
@@ -46,26 +57,37 @@ function TodoForm(props) {
   };
 
   return (
-    <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
-      <IconButton className={classes.iconButton} aria-label="menu">
-        <MenuIcon />
-      </IconButton>
-      <InputBase
-        className={classes.input}
-        placeholder="Dodaj kolejne zadanie"
-        onChange={props.handleChange}
-        value={props.todo}
-        inputRef={inputRef}
-      />
-      <IconButton
-        color="primary"
-        className={classes.iconButton}
-        aria-label="add"
-        onClick={handleSubmit}
-      >
-        <AddIcon />
-      </IconButton>
-    </Paper>
+    <>
+      <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
+        <IconButton className={classes.iconButton} aria-label="menu">
+          <MenuIcon />
+        </IconButton>
+        <InputBase
+          className={classes.input}
+          placeholder="Dodaj kolejne zadanie"
+          onChange={props.handleChange}
+          value={props.todo}
+          inputRef={inputRef}
+        />
+        <IconButton
+          color="primary"
+          className={classes.iconButton}
+          aria-label="add"
+          onClick={handleSubmit}
+        >
+          <AddIcon />
+        </IconButton>
+        <Divider className={classes.divider} orientation="vertical" />
+        <Button
+          variant="outlined"
+          color="secondary"
+          className={classes.button}
+          endIcon={<AccountCircleIcon />}
+        >
+          LOG IN
+        </Button>
+      </Paper>
+    </>
   );
 }
 
