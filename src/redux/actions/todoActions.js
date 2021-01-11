@@ -14,7 +14,7 @@ export function getTodosFromDb(todos) {
 }
 
 const axiosTodos = axios.create({
-  baseURL: 'http://localhost:3000/api/todos',
+  baseURL: 'https://todo-app-mb.herokuapp.com/api/todos',
 });
 
 export function fetchTodos() {
