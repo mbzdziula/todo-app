@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import axios from 'axios';
 
+
 export function handleChange(event) {
   return { type: types.HANDLE_CHANGE, event };
 }
@@ -14,7 +15,7 @@ export function getTodosFromDb(todos) {
 }
 
 const axiosTodos = axios.create({
-  baseURL: 'https://todo-app-mb.herokuapp.com/api/todos',
+  baseURL: 'http://localhost:3000/api/todos',
 });
 
 export function fetchTodos() {
