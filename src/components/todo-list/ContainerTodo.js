@@ -19,6 +19,7 @@ function ContainerTodo(props) {
       variant="body1"
       color={props.element.IsDone ? 'textSecondary' : 'textPrimary'}
       className={classes.task}
+      onClick={props.onClick}
     >
       {props.element.Todo}
     </Typography>

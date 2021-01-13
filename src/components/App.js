@@ -1,17 +1,62 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Todo from './Todo';
-import { Provider as ReduxProvider } from 'react-redux';
-import store from '../redux/store';
-import { Container } from '@material-ui/core';
+import MainDrawer from './MainDrawer';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import EditDrawer from './EditDrawer';
 
-function App() {
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(2),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+}));
+
+function App(props) {
+  const classes = useStyles();
+
   return (
-    <ReduxProvider store={store}>
-      <Container>
+    <div className={classes.root}>
+      <MainDrawer />
+      <main
+        className={clsx(classes.content, {
+          [classes.contentShift]: props.mainDrawer,
+        })}
+      >
         <Todo />
-      </Container>
-    </ReduxProvider>
+      </main>
+      <EditDrawer />
+    </div>
   );
 }
 
-export default App;
+App.propTypes = {
+  mainDrawer: PropTypes.bool.isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    mainDrawer: state.mainDrawer,
+  };
+}
+
+export default connect(mapStateToProps)(App);

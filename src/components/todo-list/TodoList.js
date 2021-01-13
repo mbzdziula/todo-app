@@ -10,8 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import CheckTodo from './CheckTodo';
 import LikeTodo from './LikeTodo';
 import ContainerTodo from './ContainerTodo';
-import MoreIcon from './MoreIcon';
-import { likeTodo, doneTodo, fetchTodos } from '../../redux/actions/todoActions';
+import IconButton from '@material-ui/core/IconButton';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { likeTodo, doneTodo, fetchTodos, actionEditDrawer } from '../../redux/actions/todoActions';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,18 +30,15 @@ function TodoList(props) {
 
   const createRow = (array) => {
     return array.map((element, index) => (
-      <TableRow key={index} className={element.IsDone ? classes.done : ''}>
+      <TableRow hover key={index} className={element.IsDone ? classes.done : ''}>
         <TableCell padding="checkbox">
           <CheckTodo element={element} />
         </TableCell>
-        <TableCell padding="none">
+        <TableCell padding="none" onClick={() => props.actionEditDrawer(true)}>
           <ContainerTodo element={element} />
         </TableCell>
         <TableCell padding="checkbox">
           <LikeTodo element={element} />
-        </TableCell>
-        <TableCell padding="checkbox">
-          <MoreIcon element={element} />
         </TableCell>
       </TableRow>
     ));
@@ -62,6 +60,7 @@ TodoList.propTypes = {
   likeTodo: PropTypes.func.isRequired,
   doneTodo: PropTypes.func.isRequired,
   fetchTodos: PropTypes.func.isRequired,
+  actionEditDrawer: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -74,6 +73,7 @@ const mapDispatchToProps = {
   likeTodo,
   doneTodo,
   fetchTodos,
+  actionEditDrawer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

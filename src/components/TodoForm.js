@@ -6,11 +6,8 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PropTypes from 'prop-types';
-import { handleChange, newTodo, editTodo } from '../redux/actions/todoActions';
-import Divider from '@material-ui/core/Divider';
+import { handleChange, newTodo, editTodo, mainDrawerOpen } from '../redux/actions/todoActions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -59,7 +55,7 @@ function TodoForm(props) {
   return (
     <>
       <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
-        <IconButton className={classes.iconButton} aria-label="menu">
+        <IconButton className={classes.iconButton} aria-label="menu" onClick={props.mainDrawerOpen}>
           <MenuIcon />
         </IconButton>
         <InputBase
@@ -77,7 +73,7 @@ function TodoForm(props) {
         >
           <AddIcon />
         </IconButton>
-        <Divider className={classes.divider} orientation="vertical" />
+        {/* <Divider className={classes.divider} orientation="vertical" />
         <Button
           variant="outlined"
           color="secondary"
@@ -85,7 +81,7 @@ function TodoForm(props) {
           endIcon={<AccountCircleIcon />}
         >
           LOG IN
-        </Button>
+        </Button> */}
       </Paper>
     </>
   );
@@ -97,12 +93,15 @@ TodoForm.propTypes = {
   handleChange: PropTypes.func.isRequired,
   todo: PropTypes.string.isRequired,
   currentId: PropTypes.number.isRequired,
+  mainDrawerOpen: PropTypes.func.isRequired,
+  mainDrawer: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
     todo: state.currentTask.Todo,
     currentId: state.currentTask.Id,
+    mainDrawer: state.mainDrawer,
   };
 }
 
@@ -110,6 +109,7 @@ const mapDispatchToProps = {
   handleChange,
   newTodo,
   editTodo,
+  mainDrawerOpen,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);
