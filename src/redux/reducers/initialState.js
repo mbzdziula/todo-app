@@ -4,6 +4,6 @@ export default {
     Id: 0,
     Todo: '',
   },
-  mainDrawer: false,
+  mainDrawer: true,
   editDrawer: false,
 };

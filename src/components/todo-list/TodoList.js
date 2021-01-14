@@ -12,7 +12,13 @@ import LikeTodo from './LikeTodo';
 import ContainerTodo from './ContainerTodo';
 import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { likeTodo, doneTodo, fetchTodos, actionEditDrawer } from '../../redux/actions/todoActions';
+import {
+  likeTodo,
+  doneTodo,
+  fetchTodos,
+  actionEditDrawer,
+  handleEdit,
+} from '../../redux/actions/todoActions';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +40,12 @@ function TodoList(props) {
         <TableCell padding="checkbox">
           <CheckTodo element={element} />
         </TableCell>
-        <TableCell padding="none" onClick={() => props.actionEditDrawer(true)}>
+        <TableCell
+          padding="none"
+          onClick={() => {
+            props.actionEditDrawer(true), props.handleEdit(element);
+          }}
+        >
           <ContainerTodo element={element} />
         </TableCell>
         <TableCell padding="checkbox">
@@ -61,6 +72,7 @@ TodoList.propTypes = {
   doneTodo: PropTypes.func.isRequired,
   fetchTodos: PropTypes.func.isRequired,
   actionEditDrawer: PropTypes.func.isRequired,
+  handleEdit: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -74,6 +86,7 @@ const mapDispatchToProps = {
   doneTodo,
   fetchTodos,
   actionEditDrawer,
+  handleEdit,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

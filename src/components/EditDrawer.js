@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { Button } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,11 +24,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   button: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '43%',
-      marginTop: theme.spacing(2),
-    },
+    margin: theme.spacing(1),
+    width: '90%',
   },
 }));
 
@@ -52,7 +50,7 @@ function EditDrawer(props) {
             <TextField
               label="Zadanie"
               id="outlined-size-small"
-              defaultValue="Small"
+              defaultValue={props.currentTask.Todo}
               variant="outlined"
               size="small"
             />
@@ -102,14 +100,28 @@ function EditDrawer(props) {
               size="small"
             />
           </div>
-          <div className={classes.button}>
-            <Button variant="outlined" color="primary" startIcon={<SaveIcon />}>
-              Zapisz
-            </Button>
-            <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />}>
-              Usuń
-            </Button>
-          </div>
+          <Grid container direction="row" justify="flex-end" alignItems="center">
+            <Grid item xs={6}>
+              <Button
+                className={classes.button}
+                variant="outlined"
+                color="primary"
+                startIcon={<SaveIcon />}
+              >
+                Zapisz
+              </Button>
+            </Grid>
+            <Grid item xs={6}>
+              <Button
+                className={classes.button}
+                variant="outlined"
+                color="secondary"
+                startIcon={<DeleteIcon />}
+              >
+                Usuń
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </Drawer>
     </div>
@@ -124,6 +136,7 @@ EditDrawer.propTypes = {
 function mapStateToProps(state) {
   return {
     editDrawer: state.editDrawer,
+    currentTask: state.currentTask,
   };
 }
 

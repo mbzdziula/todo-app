@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
   },
   content: {
     flexGrow: 1,
@@ -71,6 +74,7 @@ function MainDrawer(props) {
         classes={{
           paper: classes.drawerPaper,
         }}
+        display="none"
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={props.mainDrawerClose}>
