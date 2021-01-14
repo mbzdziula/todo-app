@@ -15,19 +15,22 @@ function ContainerTodo(props) {
   const classes = useStyles();
 
   return (
-    <Typography
-      variant="body1"
-      color={props.element.IsDone ? 'textSecondary' : 'textPrimary'}
-      className={classes.task}
-      onClick={props.onClick}
-    >
-      {props.element.Todo}
-    </Typography>
+    <>
+      <Typography
+        variant="body1"
+        color={props.element.IsDone ? 'textSecondary' : 'textPrimary'}
+        className={classes.task}
+        onClick={props.onClick}
+      >
+        {props.element.Todo}
+      </Typography>
+    </>
   );
 }
 
 ContainerTodo.propTypes = {
   element: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default ContainerTodo;

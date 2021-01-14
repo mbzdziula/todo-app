@@ -17,6 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import withWidth from '@material-ui/core/withWidth';
 
 const drawerWidth = 240;
 
@@ -35,28 +36,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: -drawerWidth,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginLeft: 0,
   },
 }));
 
@@ -70,7 +54,7 @@ function MainDrawer(props) {
         className={classes.drawer}
         variant="persistent"
         anchor="left"
-        open={props.mainDrawer}
+        open={props.width !== 'xs' ? true : props.mainDrawer}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -117,6 +101,7 @@ MainDrawer.propTypes = {
   mainDrawerClose: PropTypes.func.isRequired,
   mainDrawerOpen: PropTypes.func.isRequired,
   mainDrawer: PropTypes.bool.isRequired,
+  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
 };
 
 function mapStateToProps(state) {
@@ -130,4 +115,4 @@ const mapDispatchToProps = {
   mainDrawerClose,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainDrawer);
+export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(MainDrawer));

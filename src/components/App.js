@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import EditDrawer from './EditDrawer';
+import withWidth from '@material-ui/core/withWidth';
 
 const drawerWidth = 240;
 
@@ -41,7 +42,7 @@ function App(props) {
       <MainDrawer />
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: props.mainDrawer,
+          [classes.contentShift]: props.width !== 'xs' ? true : props.mainDrawer,
         })}
       >
         <Todo />
@@ -53,6 +54,7 @@ function App(props) {
 
 App.propTypes = {
   mainDrawer: PropTypes.bool.isRequired,
+  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
 };
 
 function mapStateToProps(state) {
@@ -61,4 +63,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(withWidth()(App));

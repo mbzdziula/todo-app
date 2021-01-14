@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -39,15 +39,14 @@ const useStyles = makeStyles((theme) => ({
 
 function EditDrawer(props) {
   const classes = useStyles();
-  const [selectedDate, setSelectedDate] = useState();
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
 
-  const [currency, setCurrency] = useState('');
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!props.currentTask.Todo || /^\s*$/.test(props.currentTask.Todo)) {
+      return;
+    }
 
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
+    props.editTodo(props.currentTask), props.actionEditDrawer(false);
   };
 
   return (
@@ -116,9 +115,7 @@ function EditDrawer(props) {
                 variant="outlined"
                 color="primary"
                 startIcon={<SaveIcon />}
-                onClick={() => {
-                  props.editTodo(props.currentTask), props.actionEditDrawer(false);
-                }}
+                onClick={handleSubmit}
               >
                 Zapisz
               </Button>

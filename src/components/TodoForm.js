@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -23,6 +23,15 @@ const useStyles = makeStyles((theme) => ({
   iconButton: {
     padding: 10,
   },
+  iconButtonMainDrawer: {
+    padding: 10,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  iconButtonNone: {
+    display: 'none',
+  },
   button: {
     marginLeft: theme.spacing(1),
   },
@@ -35,35 +44,38 @@ const useStyles = makeStyles((theme) => ({
 function TodoForm(props) {
   const classes = useStyles();
 
-  const inputRef = useRef();
+  const [todo, setTodo] = useState();
 
-  useEffect(() => {
-    inputRef.current.focus();
-    inputRef.current.selectionStart = inputRef.current.value.length;
-    inputRef.current.selectionEnd = inputRef.current.value.length;
-  });
+  const handleChange = (event) => {
+    const newTodo = event.target.value;
+    setTodo(newTodo);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!props.todo || /^\s*$/.test(props.todo)) {
+    if (!todo || /^\s*$/.test(todo)) {
       return;
     }
 
-    props.currentId === 0 ? props.newTodo(props.todo) : props.editTodo(props.currentId, props.todo);
+    props.newTodo(todo);
+    setTodo('');
   };
 
   return (
     <>
       <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
-        <IconButton className={classes.iconButton} aria-label="menu" onClick={props.mainDrawerOpen}>
+        <IconButton
+          className={props.mainDrawer ? classes.iconButtonNone : classes.iconButtonMainDrawer}
+          aria-label="menu"
+          onClick={props.mainDrawerOpen}
+        >
           <MenuIcon />
         </IconButton>
         <InputBase
           className={classes.input}
           placeholder="Dodaj kolejne zadanie"
-          onChange={props.handleChange}
-          value={props.todo}
-          inputRef={inputRef}
+          onChange={handleChange}
+          value={todo}
         />
         <IconButton
           color="primary"
