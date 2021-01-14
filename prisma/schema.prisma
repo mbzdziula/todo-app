@@ -16,7 +16,7 @@ model Todos {
   IsDone Boolean @default(false)
   Like Int @default(0)
   Comment String @default("")
-  Date  DateTime @default("1970-01-01T00:00:00.000Z")
+  Date  String?
   Project String @default("")
 }
 

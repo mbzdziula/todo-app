@@ -9,6 +9,7 @@ export default async function handler(req, res) {
       const result = await prisma.todos.create({
         data: {
           Todo: Todo,
+          Date: null,
         },
       });
       return res.json(result);
