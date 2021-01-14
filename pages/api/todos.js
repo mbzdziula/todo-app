@@ -9,8 +9,6 @@ export default async function handler(req, res) {
       const result = await prisma.todos.create({
         data: {
           Todo: Todo,
-          IsDone: false,
-          Like: 0,
         },
       });
       return res.json(result);
@@ -24,7 +22,14 @@ export default async function handler(req, res) {
       const updateTodo = req.body;
       const result = await prisma.todos.update({
         where: { Id: updateTodo.Id },
-        data: { Todo: updateTodo.Todo, IsDone: updateTodo.IsDone, Like: updateTodo.Like },
+        data: {
+          Todo: updateTodo.Todo,
+          IsDone: updateTodo.IsDone,
+          Like: updateTodo.Like,
+          Comment: updateTodo.Comment,
+          Date: updateTodo.Date,
+          Project: updateTodo.Project,
+        },
       });
       return res.json(result);
     }

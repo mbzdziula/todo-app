@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { actionEditDrawer } from '../redux/actions/todoActions';
+import {
+  actionEditDrawer,
+  deleteTodo,
+  handleChange,
+  handleChangeComment,
+  handleChangeDate,
+  handleChangeProject,
+  editTodo,
+} from '../redux/actions/todoActions';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import TextField from '@material-ui/core/TextField';
@@ -50,12 +58,12 @@ function EditDrawer(props) {
             <TextField
               label="Zadanie"
               id="outlined-size-small"
-              defaultValue={props.currentTask.Todo}
+              value={props.currentTask.Todo}
+              onChange={props.handleChange}
               variant="outlined"
               size="small"
             />
           </div>
-
           <div>
             <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pl}>
               <KeyboardDatePicker
@@ -66,8 +74,8 @@ function EditDrawer(props) {
                 margin="normal"
                 id="date-picker-inline"
                 label="Data"
-                value={selectedDate}
-                onChange={handleDateChange}
+                value={props.currentTask.Date}
+                onChange={props.handleChangeDate}
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
@@ -80,8 +88,8 @@ function EditDrawer(props) {
               size="small"
               select
               label="Projekt"
-              value={currency}
-              onChange={handleChange}
+              value={props.currentTask.Project}
+              onChange={props.handleChangeProject}
               variant="outlined"
             >
               <MenuItem value="">Brak</MenuItem>
@@ -95,7 +103,8 @@ function EditDrawer(props) {
               multiline
               rows={10}
               id="outlined-size-small"
-              defaultValue="Small"
+              value={props.currentTask.Comment}
+              onChange={props.handleChangeComment}
               variant="outlined"
               size="small"
             />
@@ -107,6 +116,9 @@ function EditDrawer(props) {
                 variant="outlined"
                 color="primary"
                 startIcon={<SaveIcon />}
+                onClick={() => {
+                  props.editTodo(props.currentTask), props.actionEditDrawer(false);
+                }}
               >
                 Zapisz
               </Button>
@@ -117,6 +129,9 @@ function EditDrawer(props) {
                 variant="outlined"
                 color="secondary"
                 startIcon={<DeleteIcon />}
+                onClick={() => {
+                  props.deleteTodo(props.currentTask.Id), props.actionEditDrawer(false);
+                }}
               >
                 Usuń
               </Button>
@@ -131,6 +146,13 @@ function EditDrawer(props) {
 EditDrawer.propTypes = {
   actionEditDrawer: PropTypes.func.isRequired,
   editDrawer: PropTypes.bool.isRequired,
+  currentTask: PropTypes.object.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleChangeComment: PropTypes.func.isRequired,
+  handleChangeDate: PropTypes.func.isRequired,
+  handleChangeProject: PropTypes.func.isRequired,
+  editTodo: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -142,6 +164,12 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   actionEditDrawer,
+  deleteTodo,
+  handleChange,
+  handleChangeComment,
+  handleChangeDate,
+  handleChangeProject,
+  editTodo,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditDrawer);

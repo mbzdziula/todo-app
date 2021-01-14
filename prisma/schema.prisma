@@ -13,7 +13,10 @@ generator client {
 model Todos {
   Id Int @id @default(autoincrement())
   Todo String
-  IsDone Boolean
-  Like Int
+  IsDone Boolean @default(false)
+  Like Int @default(0)
+  Comment String @default("")
+  Date  DateTime @default("1970-01-01T00:00:00.000Z")
+  Project String @default("")
 }
 
