@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import EditDrawer from './EditDrawer';
-import TodoForm from './TodoForm';
 import TodoList from './todo-list/TodoList';
 import MainDrawer from './MainDrawer';
+import Nav from './Nav';
 
 import { makeStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
@@ -36,6 +36,25 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 0,
     },
   },
+  appBar: {
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+  },
+  marginAppBar: {
+    marginTop: 80,
+  },
 }));
 
 function Todo(props) {
@@ -43,13 +62,16 @@ function Todo(props) {
 
   return (
     <div className={classes.root}>
+      <Nav />
       <MainDrawer />
+
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: props.width !== 'xs' ? true : props.mainDrawer,
         })}
       >
-        <TodoForm />
+        <div className={classes.marginAppBar} />
+
         <Paper>
           <TodoList />
         </Paper>
