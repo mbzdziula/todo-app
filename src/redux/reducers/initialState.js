@@ -7,6 +7,6 @@ export default {
     Date: '',
     Project: '',
   },
-  mainDrawer: true,
+  mainDrawer: false,
   editDrawer: false,
 };

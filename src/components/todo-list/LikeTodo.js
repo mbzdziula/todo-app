@@ -1,11 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { likeTodo } from '../../redux/actions/todoActions';
+import PropTypes from 'prop-types';
+
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
-import { likeTodo } from '../../redux/actions/todoActions';
-import { connect } from 'react-redux';
-
-import PropTypes from 'prop-types';
 
 function LikeTodo(props) {
   return props.element.Like === 0 ? (

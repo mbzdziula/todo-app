@@ -15,9 +15,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import withWidth from '@material-ui/core/withWidth';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import WorkIcon from '@material-ui/icons/Work';
+import TodayIcon from '@material-ui/icons/Today';
 
 const drawerWidth = 240;
 
@@ -31,6 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    background: theme.palette.primary.main,
+    color: '#f5f5f5',
   },
   drawerHeader: {
     display: 'flex',
@@ -41,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
+  },
+  icon: {
+    color: '#fafafa',
   },
 }));
 
@@ -62,35 +69,48 @@ function MainDrawer(props) {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={props.mainDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === 'ltr' ? (
+              <ChevronLeftIcon className={classes.icon} />
+            ) : (
+              <ChevronRightIcon className={classes.icon} />
+            )}
           </IconButton>
         </div>
-        <Divider />
+        <Divider light variant="middle" />
         <List>
           <ListItem button>
             <ListItemIcon>
-              <AccountCircleIcon />
+              <AccountCircleIcon className={classes.icon} />
             </ListItemIcon>
-            <ListItemText primary="Zaloguj się" />
+            <ListItemText primary="Elo mordo!" />
           </ListItem>
         </List>
-        <Divider />
+        <Divider light variant="middle" />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button>
+            <ListItemIcon>
+              <FavoriteIcon className={classes.icon} />
+            </ListItemIcon>
+            <ListItemText primary="Priorytety" />
+          </ListItem>
+          <ListItem button selected>
+            <ListItemIcon>
+              <InboxIcon className={classes.icon} />
+            </ListItemIcon>
+            <ListItemText primary="Skrzynka spraw" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <WorkIcon className={classes.icon} />
+            </ListItemIcon>
+            <ListItemText primary="Projekty" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <TodayIcon className={classes.icon} />
+            </ListItemIcon>
+            <ListItemText primary="Kalendarz" />
+          </ListItem>
         </List>
       </Drawer>
     </>

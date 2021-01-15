@@ -1,17 +1,6 @@
 import React, { useEffect } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import CheckTodo from './CheckTodo';
-import LikeTodo from './LikeTodo';
+import { connect } from 'react-redux';
 import ContainerTodo from './ContainerTodo';
-import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import {
   likeTodo,
   doneTodo,
@@ -19,11 +8,26 @@ import {
   actionEditDrawer,
   handleEdit,
 } from '../../redux/actions/todoActions';
-import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import CheckTodo from './CheckTodo';
+import LikeTodo from './LikeTodo';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme) => ({
   done: {
     backgroundColor: theme.palette.grey[200],
+    cursor: 'pointer',
+  },
+  row: {
+    cursor: 'pointer',
   },
 }));
 
@@ -36,7 +40,7 @@ function TodoList(props) {
 
   const createRow = (array) => {
     return array.map((element, index) => (
-      <TableRow hover key={index} className={element.IsDone ? classes.done : ''}>
+      <TableRow hover key={index} className={element.IsDone ? classes.done : classes.row}>
         <TableCell padding="checkbox">
           <CheckTodo element={element} />
         </TableCell>

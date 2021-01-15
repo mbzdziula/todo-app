@@ -15,8 +15,8 @@ model Todos {
   Todo String
   IsDone Boolean @default(false)
   Like Int @default(0)
-  Comment String @default("")
-  Date  String?
-  Project String @default("")
+  Comment String? @default("")
+  Date DateTime?
+  Project String? @default("")
 }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import {
   actionEditDrawer,
   deleteTodo,
@@ -10,18 +9,21 @@ import {
   handleChangeProject,
   editTodo,
 } from '../redux/actions/todoActions';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import TextField from '@material-ui/core/TextField';
+import PropTypes from 'prop-types';
+
 import 'date-fns';
 import { pl } from 'date-fns/locale';
 import DateFnsUtils from '@date-io/date-fns';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import { Button } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
