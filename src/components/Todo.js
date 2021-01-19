@@ -88,7 +88,7 @@ Todo.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    mainDrawer: state.mainDrawer,
+    mainDrawer: state.drawerReducer.mainDrawer,
   };
 }
 
