@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { actionMainDrawer } from '../redux/actions/drawerActions';
@@ -27,7 +30,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import withWidth from '@material-ui/core/withWidth';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import WorkIcon from '@material-ui/icons/Work';
-import TodayIcon from '@material-ui/icons/Today';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -78,6 +80,7 @@ function MainDrawer(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   const handleClick = () => {
     setShow(!show);
@@ -117,7 +120,7 @@ function MainDrawer(props) {
         </div>
         <Divider light variant="middle" />
         <List>
-          <ListItem button>
+          <ListItem>
             <ListItemIcon>
               <AccountCircleIcon className={classes.icon} />
             </ListItemIcon>
@@ -126,20 +129,24 @@ function MainDrawer(props) {
         </List>
         <Divider light variant="middle" />
         <List>
-          <ListItem button>
+          <ListItem button selected={router.query.category === 'Priorytety'}>
             <ListItemIcon>
               <FavoriteIcon className={classes.icon} />
             </ListItemIcon>
-            <ListItemText primary="Priorytety" />
+            <Link as="../Priorytety/main" href="/[category]/[project]">
+              <ListItemText primary="Priorytety" />
+            </Link>
           </ListItem>
-          <ListItem button selected>
+          <ListItem button selected={router.query.category === 'Skrzynka spraw'}>
             <ListItemIcon>
               <InboxIcon className={classes.icon} />
             </ListItemIcon>
-            <ListItemText primary="Skrzynka spraw" />
+            <Link as="../Skrzynka spraw/main" href="/[category]/[project]">
+              <ListItemText primary="Skrzynka spraw" />
+            </Link>
           </ListItem>
 
-          <ListItem button onClick={handleClick}>
+          <ListItem button onClick={handleClick} selected={router.query.category === 'Projekty'}>
             <ListItemIcon>
               <WorkIcon className={classes.icon} />
             </ListItemIcon>
@@ -150,8 +157,15 @@ function MainDrawer(props) {
               {props.projects
                 .filter((element) => element.Id !== props.currentProject.Id)
                 .map((element, index) => (
-                  <ListItem button dense key={index}>
-                    <ListItemText primary={element.Project} />
+                  <ListItem
+                    button
+                    dense
+                    key={index}
+                    selected={router.query.project === element.Project}
+                  >
+                    <Link as={`../Projekty/${element.Project}`} href="/[category]/[project]">
+                      <ListItemText primary={element.Project} />
+                    </Link>
                     <IconButton
                       disableRipple
                       disableFocusRipple

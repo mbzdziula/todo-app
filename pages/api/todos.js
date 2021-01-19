@@ -5,10 +5,12 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   switch (req.method) {
     case 'POST': {
-      const { Todo } = req.body;
+      const todo = req.body;
       const result = await prisma.todos.create({
         data: {
-          Todo: Todo,
+          Todo: todo.Todo,
+          Like: todo.Like,
+          Project: todo.Project,
           Date: null,
         },
       });

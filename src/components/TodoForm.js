@@ -4,6 +4,8 @@ import { handleChange, newTodo, editTodo } from '../redux/actions/todoActions';
 import { actionMainDrawer } from '../redux/actions/drawerActions';
 import PropTypes from 'prop-types';
 
+import { useRouter } from 'next/router';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -44,22 +46,28 @@ const useStyles = makeStyles((theme) => ({
 
 function TodoForm(props) {
   const classes = useStyles();
+  const router = useRouter();
 
-  const [todo, setTodo] = useState();
+  const initialTodo = { Todo: '', Like: 0, Project: '' };
+
+  const [todo, setTodo] = useState(initialTodo);
 
   const handleChange = (event) => {
     const newTodo = event.target.value;
-    setTodo(newTodo);
+    const newLike = router.query.category === 'Priorytety' ? 1 : 0;
+    const newProject = router.query.project !== 'main' ? router.query.project : '';
+    setTodo({ ...todo, Todo: newTodo, Like: newLike, Project: newProject });
+    console.log(todo);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!todo || /^\s*$/.test(todo)) {
+    if (!todo.Todo || /^\s*$/.test(todo.Todo)) {
       return;
     }
 
     props.newTodo(todo);
-    setTodo('');
+    setTodo(initialTodo);
   };
 
   return (
@@ -76,7 +84,7 @@ function TodoForm(props) {
           className={classes.input}
           placeholder="Dodaj kolejne zadanie"
           onChange={handleChange}
-          value={todo}
+          value={todo.Todo}
         />
         <IconButton
           color="primary"
@@ -103,7 +111,6 @@ TodoForm.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    todo: state.todoReducer.currentTask.Todo,
     currentId: state.todoReducer.currentTask.Id,
     mainDrawer: state.drawerReducer.mainDrawer,
   };

@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+
+import { useRouter } from 'next/router';
+
 import { connect } from 'react-redux';
 import ContainerTodo from './ContainerTodo';
 import { likeTodo, doneTodo, fetchTodos, handleEdit } from '../../redux/actions/todoActions';
@@ -29,11 +32,16 @@ const useStyles = makeStyles((theme) => ({
 
 function TodoList(props) {
   const classes = useStyles();
+  const router = useRouter();
 
   useEffect(() => {
     props.fetchTodos();
     props.fetchProjects();
   }, []);
+
+  const category = router.query.category;
+  const showLike = props.todos.filter((element) => element.Like === 1);
+  const showProject = props.todos.filter((element) => element.Project === router.query.project);
 
   const createRow = (array) => {
     return array.map((element, index) => (
@@ -60,7 +68,15 @@ function TodoList(props) {
     <>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
-          <TableBody>{createRow(props.todos)}</TableBody>
+          <TableBody>
+            {createRow(
+              category === 'Skrzynka spraw'
+                ? props.todos
+                : category === 'Priorytety'
+                ? showLike
+                : showProject,
+            )}
+          </TableBody>
         </Table>
       </TableContainer>
     </>

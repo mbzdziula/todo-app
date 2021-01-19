@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import { useRouter } from 'next/router';
+
 import TodoForm from './TodoForm';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -34,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Nav(props) {
   const classes = useStyles();
+  const router = useRouter();
 
   return (
     <AppBar
@@ -48,7 +51,8 @@ function Nav(props) {
         <Grid item></Grid>
         <Grid item>
           <Typography variant="overline" color="textSecondary" noWrap>
-            Skrzynka spraw
+            {router.query.category}
+            {router.query.project !== 'main' ? ` | ${router.query.project}` : ''}
           </Typography>
         </Grid>
         <Grid item></Grid>

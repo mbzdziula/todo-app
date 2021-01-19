@@ -40,7 +40,7 @@ export function fetchTodos() {
 
 export function newTodo(todo) {
   return async (dispatch) => {
-    const Todo = { Todo: todo };
+    const Todo = todo;
     await axiosTodos.post('', Todo);
     dispatch(fetchTodos());
   };
