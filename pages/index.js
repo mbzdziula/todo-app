@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { red, green } from '@material-ui/core/colors';
 
-import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
