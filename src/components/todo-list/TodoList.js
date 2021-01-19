@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import ContainerTodo from './ContainerTodo';
-import {
-  likeTodo,
-  doneTodo,
-  fetchTodos,
-  actionEditDrawer,
-  handleEdit,
-} from '../../redux/actions/todoActions';
+import { likeTodo, doneTodo, fetchTodos, handleEdit } from '../../redux/actions/todoActions';
+import { actionEditDrawer } from '../../redux/actions/drawerActions';
+import { fetchProjects } from '../../redux/actions/projectActions';
 import PropTypes from 'prop-types';
 
 import CheckTodo from './CheckTodo';
@@ -36,6 +32,7 @@ function TodoList(props) {
 
   useEffect(() => {
     props.fetchTodos();
+    props.fetchProjects();
   }, []);
 
   const createRow = (array) => {
@@ -77,11 +74,12 @@ TodoList.propTypes = {
   fetchTodos: PropTypes.func.isRequired,
   actionEditDrawer: PropTypes.func.isRequired,
   handleEdit: PropTypes.func.isRequired,
+  fetchProjects: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    todos: state.todos,
+    todos: state.todoReducer.todos,
   };
 }
 
@@ -91,6 +89,7 @@ const mapDispatchToProps = {
   fetchTodos,
   actionEditDrawer,
   handleEdit,
+  fetchProjects,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoList);

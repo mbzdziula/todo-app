@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  actionEditDrawer,
   deleteTodo,
   handleChange,
   handleChangeComment,
@@ -9,6 +8,7 @@ import {
   handleChangeProject,
   editTodo,
 } from '../redux/actions/todoActions';
+import { actionEditDrawer } from '../redux/actions/drawerActions';
 import PropTypes from 'prop-types';
 
 import 'date-fns';
@@ -93,9 +93,12 @@ function EditDrawer(props) {
               onChange={props.handleChangeProject}
               variant="outlined"
             >
-              <MenuItem value="">Brak</MenuItem>
-
-              <MenuItem value="1">1</MenuItem>
+              <MenuItem value="">Skrzynka spraw</MenuItem>
+              {props.projects.map((element, index) => (
+                <MenuItem key={index} value={element.Project}>
+                  {element.Project}
+                </MenuItem>
+              ))}
             </TextField>
           </div>
           <div>
@@ -152,12 +155,14 @@ EditDrawer.propTypes = {
   handleChangeDate: PropTypes.func.isRequired,
   handleChangeProject: PropTypes.func.isRequired,
   editTodo: PropTypes.func.isRequired,
+  projects: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    editDrawer: state.editDrawer,
-    currentTask: state.currentTask,
+    editDrawer: state.drawerReducer.editDrawer,
+    currentTask: state.todoReducer.currentTask,
+    projects: state.projectReducer.projects,
   };
 }
 

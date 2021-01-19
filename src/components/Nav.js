@@ -42,6 +42,7 @@ function Nav(props) {
         [classes.appBarShift]: props.width !== 'xs' ? true : props.mainDrawer,
       })}
       color="default"
+      elevation={1}
     >
       <Grid container direction="row" justify="space-between" alignItems="center">
         <Grid item></Grid>
@@ -64,7 +65,7 @@ Nav.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    mainDrawer: state.mainDrawer,
+    mainDrawer: state.drawerReducer.mainDrawer,
   };
 }
 

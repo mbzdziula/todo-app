@@ -18,5 +18,12 @@ model Todos {
   Comment String? @default("")
   Date DateTime?
   Project String? @default("")
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+}
+
+model Projects {
+  Id Int @id @default(autoincrement())
+  Project String 
 }
 

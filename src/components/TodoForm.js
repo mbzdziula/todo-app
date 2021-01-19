@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { handleChange, newTodo, editTodo, mainDrawerOpen } from '../redux/actions/todoActions';
+import { handleChange, newTodo, editTodo } from '../redux/actions/todoActions';
+import { actionMainDrawer } from '../redux/actions/drawerActions';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    // marginBottom: theme.spacing(2),
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -64,11 +64,11 @@ function TodoForm(props) {
 
   return (
     <>
-      <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
+      <Paper elevation={0} component="form" className={classes.root} onSubmit={handleSubmit}>
         <IconButton
           className={props.mainDrawer ? classes.iconButtonNone : classes.iconButtonMainDrawer}
           aria-label="menu"
-          onClick={props.mainDrawerOpen}
+          onClick={() => props.actionMainDrawer(true)}
         >
           <MenuIcon />
         </IconButton>
@@ -97,15 +97,15 @@ TodoForm.propTypes = {
   handleChange: PropTypes.func.isRequired,
   todo: PropTypes.string.isRequired,
   currentId: PropTypes.number.isRequired,
-  mainDrawerOpen: PropTypes.func.isRequired,
+  actionMainDrawer: PropTypes.func.isRequired,
   mainDrawer: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    todo: state.currentTask.Todo,
-    currentId: state.currentTask.Id,
-    mainDrawer: state.mainDrawer,
+    todo: state.todoReducer.currentTask.Todo,
+    currentId: state.todoReducer.currentTask.Id,
+    mainDrawer: state.drawerReducer.mainDrawer,
   };
 }
 
@@ -113,7 +113,7 @@ const mapDispatchToProps = {
   handleChange,
   newTodo,
   editTodo,
-  mainDrawerOpen,
+  actionMainDrawer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);

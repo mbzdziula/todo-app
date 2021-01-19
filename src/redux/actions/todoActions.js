@@ -25,18 +25,6 @@ export function getTodosFromDb(todos) {
   return { type: types.GET_TODOS_FROM_DB, todos };
 }
 
-export function mainDrawerOpen() {
-  return { type: types.MAIN_DRAWER_OPEN };
-}
-
-export function mainDrawerClose() {
-  return { type: types.MAIN_DRAWER_CLOSE };
-}
-
-export function actionEditDrawer(open) {
-  return { type: types.ACTION_EDIT_DRAWER, open };
-}
-
 const axiosTodos = axios.create({
   baseURL: 'http://localhost:3000/api/todos',
 });

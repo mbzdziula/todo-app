@@ -1,5 +1,5 @@
 import * as types from '../actions/actionTypes';
-import initialState from './initialState';
+import { initialTodos as initialState } from './initialState';
 
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -15,12 +15,6 @@ const todoReducer = (state = initialState, action) => {
       return handleEdit(state, action.element);
     case types.GET_TODOS_FROM_DB:
       return getTodosFromDb(state, action.todos);
-    case types.MAIN_DRAWER_OPEN:
-      return mainDrawerOpen(state);
-    case types.MAIN_DRAWER_CLOSE:
-      return mainDrawerClose(state);
-    case types.ACTION_EDIT_DRAWER:
-      return actionEditDrawer(state, action.open);
     default:
       return state;
   }
@@ -72,18 +66,6 @@ const handleEdit = (state, element) => {
 
 const getTodosFromDb = (state, todos) => {
   return { ...state, currentTask: initialState.currentTask, todos: todos };
-};
-
-const mainDrawerOpen = (state) => {
-  return { ...state, mainDrawer: true };
-};
-
-const mainDrawerClose = (state) => {
-  return { ...state, mainDrawer: false };
-};
-
-const actionEditDrawer = (state, open) => {
-  return { ...state, editDrawer: open };
 };
 
 export default todoReducer;
