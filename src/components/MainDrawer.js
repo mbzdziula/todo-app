@@ -129,20 +129,28 @@ function MainDrawer(props) {
         </List>
         <Divider light variant="middle" />
         <List>
-          <ListItem button selected={router.query.category === 'Priorytety'}>
-            <ListItemIcon>
-              <FavoriteIcon className={classes.icon} />
-            </ListItemIcon>
-            <Link as="../Priorytety/main" href="/[category]/[project]">
-              <ListItemText primary="Priorytety" />
-            </Link>
-          </ListItem>
-          <ListItem button selected={router.query.category === 'Skrzynka spraw'}>
+          <ListItem
+            button
+            selected={router.query.category === 'Skrzynka spraw'}
+            onClick={() => props.actionMainDrawer(false)}
+          >
             <ListItemIcon>
               <InboxIcon className={classes.icon} />
             </ListItemIcon>
             <Link as="../Skrzynka spraw/main" href="/[category]/[project]">
               <ListItemText primary="Skrzynka spraw" />
+            </Link>
+          </ListItem>
+          <ListItem
+            button
+            selected={router.query.category === 'Priorytety'}
+            onClick={() => props.actionMainDrawer(false)}
+          >
+            <ListItemIcon>
+              <FavoriteIcon className={classes.icon} />
+            </ListItemIcon>
+            <Link as="../Priorytety/main" href="/[category]/[project]">
+              <ListItemText primary="Priorytety" />
             </Link>
           </ListItem>
 
@@ -162,6 +170,9 @@ function MainDrawer(props) {
                     dense
                     key={index}
                     selected={router.query.project === element.Project}
+                    onClick={() => {
+                      props.actionMainDrawer(false), handleClick();
+                    }}
                   >
                     <Link as={`../Projekty/${element.Project}`} href="/[category]/[project]">
                       <ListItemText primary={element.Project} />
