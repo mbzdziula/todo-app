@@ -18,7 +18,7 @@ export function projectClearHandleEdit() {
 }
 
 const axiosProjects = axios.create({
-  baseURL: 'http://localhost:3000/api/projects',
+  baseURL: 'https://todo-app-mb.herokuapp.com/api/projects',
 });
 
 export function fetchProjects() {
