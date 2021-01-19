@@ -1,24 +1,23 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { handleChange, newTodo, editTodo } from '../redux/actions/todoActions';
+import { actionMainDrawer } from '../redux/actions/drawerActions';
+import PropTypes from 'prop-types';
+
+import { useRouter } from 'next/router';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import PropTypes from 'prop-types';
-import { handleChange, newTodo, editTodo } from '../redux/actions/todoActions';
-import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2px 4px',
     display: 'flex',
     alignItems: 'center',
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2),
   },
   input: {
     marginLeft: theme.spacing(1),
@@ -26,6 +25,15 @@ const useStyles = makeStyles((theme) => ({
   },
   iconButton: {
     padding: 10,
+  },
+  iconButtonMainDrawer: {
+    padding: 10,
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+  },
+  iconButtonNone: {
+    display: 'none',
   },
   button: {
     marginLeft: theme.spacing(1),
@@ -38,36 +46,45 @@ const useStyles = makeStyles((theme) => ({
 
 function TodoForm(props) {
   const classes = useStyles();
+  const router = useRouter();
 
-  const inputRef = useRef();
+  const initialTodo = { Todo: '', Like: 0, Project: '' };
 
-  useEffect(() => {
-    inputRef.current.focus();
-    inputRef.current.selectionStart = inputRef.current.value.length;
-    inputRef.current.selectionEnd = inputRef.current.value.length;
-  });
+  const [todo, setTodo] = useState(initialTodo);
+
+  const handleChange = (event) => {
+    const newTodo = event.target.value;
+    const newLike = router.query.category === 'Priorytety' ? 1 : 0;
+    const newProject = router.query.project !== 'main' ? router.query.project : '';
+    setTodo({ ...todo, Todo: newTodo, Like: newLike, Project: newProject });
+    console.log(todo);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!props.todo || /^\s*$/.test(props.todo)) {
+    if (!todo.Todo || /^\s*$/.test(todo.Todo)) {
       return;
     }
 
-    props.currentId === 0 ? props.newTodo(props.todo) : props.editTodo(props.currentId, props.todo);
+    props.newTodo(todo);
+    setTodo(initialTodo);
   };
 
   return (
     <>
-      <Paper component="form" className={classes.root} onSubmit={handleSubmit}>
-        <IconButton className={classes.iconButton} aria-label="menu">
+      <Paper elevation={0} component="form" className={classes.root} onSubmit={handleSubmit}>
+        <IconButton
+          className={props.mainDrawer ? classes.iconButtonNone : classes.iconButtonMainDrawer}
+          aria-label="menu"
+          onClick={() => props.actionMainDrawer(true)}
+        >
           <MenuIcon />
         </IconButton>
         <InputBase
           className={classes.input}
           placeholder="Dodaj kolejne zadanie"
-          onChange={props.handleChange}
-          value={props.todo}
-          inputRef={inputRef}
+          onChange={handleChange}
+          value={todo.Todo}
         />
         <IconButton
           color="primary"
@@ -77,15 +94,6 @@ function TodoForm(props) {
         >
           <AddIcon />
         </IconButton>
-        <Divider className={classes.divider} orientation="vertical" />
-        <Button
-          variant="outlined"
-          color="secondary"
-          className={classes.button}
-          endIcon={<AccountCircleIcon />}
-        >
-          LOG IN
-        </Button>
       </Paper>
     </>
   );
@@ -97,12 +105,14 @@ TodoForm.propTypes = {
   handleChange: PropTypes.func.isRequired,
   todo: PropTypes.string.isRequired,
   currentId: PropTypes.number.isRequired,
+  actionMainDrawer: PropTypes.func.isRequired,
+  mainDrawer: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    todo: state.currentTask.Todo,
-    currentId: state.currentTask.Id,
+    currentId: state.todoReducer.currentTask.Id,
+    mainDrawer: state.drawerReducer.mainDrawer,
   };
 }
 
@@ -110,6 +120,7 @@ const mapDispatchToProps = {
   handleChange,
   newTodo,
   editTodo,
+  actionMainDrawer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoForm);

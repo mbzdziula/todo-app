@@ -1,23 +1,11 @@
-import React from 'react';
-import App from '../src/components/App';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { grey, green } from '@material-ui/core/colors';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: green[400],
-    },
-    secondary: {
-      main: grey[500],
-    },
-  },
-});
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Home() {
-  return (
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/Skrzynka spraw/main');
+  }, []);
+  return <h1>Loading</h1>;
 }

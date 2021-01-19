@@ -1,39 +1,76 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
+import { useRouter } from 'next/router';
+
+import TodoForm from './TodoForm';
+
 import { makeStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
+import clsx from 'clsx';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    marginBottom: theme.spacing(2),
-    shadow: '0px 0px 0px 0px',
+  appBar: {
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
+  appBarShift: {
+    [theme.breakpoints.up('sm')]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+      transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
   },
 }));
 
-function Nav() {
+function Nav(props) {
   const classes = useStyles();
+  const router = useRouter();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          <Typography variant="h6" className={classes.title}>
-            News
+    <AppBar
+      position="fixed"
+      className={clsx(classes.appBar, {
+        [classes.appBarShift]: props.width !== 'xs' ? true : props.mainDrawer,
+      })}
+      color="default"
+      elevation={1}
+    >
+      <Grid container direction="row" justify="space-between" alignItems="center">
+        <Grid item></Grid>
+        <Grid item>
+          <Typography variant="overline" color="textSecondary" noWrap>
+            {router.query.category}
+            {router.query.project !== 'main' ? ` | ${router.query.project}` : ''}
           </Typography>
-          <Button color="inherit">Login</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
+        </Grid>
+        <Grid item></Grid>
+      </Grid>
+      <TodoForm />
+    </AppBar>
   );
 }
 
-export default Nav;
+Nav.propTypes = {
+  mainDrawer: PropTypes.bool.isRequired,
+  width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
+};
+
+function mapStateToProps(state) {
+  return {
+    mainDrawer: state.drawerReducer.mainDrawer,
+  };
+}
+
+export default connect(mapStateToProps)(withWidth()(Nav));

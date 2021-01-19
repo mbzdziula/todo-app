@@ -9,6 +9,18 @@ export function handleEdit(element) {
   return { type: types.HANDLE_EDIT, element };
 }
 
+export function handleChangeComment(event) {
+  return { type: types.HANDLE_CHANGE_COMMENT, event };
+}
+
+export function handleChangeDate(date) {
+  return { type: types.HANDLE_CHANGE_DATE, date };
+}
+
+export function handleChangeProject(event) {
+  return { type: types.HANDLE_CHANGE_PROJECT, event };
+}
+
 export function getTodosFromDb(todos) {
   return { type: types.GET_TODOS_FROM_DB, todos };
 }
@@ -28,7 +40,7 @@ export function fetchTodos() {
 
 export function newTodo(todo) {
   return async (dispatch) => {
-    const Todo = { Todo: todo };
+    const Todo = todo;
     await axiosTodos.post('', Todo);
     dispatch(fetchTodos());
   };
@@ -68,9 +80,9 @@ export function likeTodo(element) {
   };
 }
 
-export function editTodo(id, todo) {
+export function editTodo(element) {
   return async (dispatch) => {
-    const Todo = { Id: id, Todo: todo };
+    const Todo = element;
     await axiosTodos.patch('', Todo);
     dispatch(fetchTodos());
   };

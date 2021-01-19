@@ -5,12 +5,13 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   switch (req.method) {
     case 'POST': {
-      const { Todo } = req.body;
+      const todo = req.body;
       const result = await prisma.todos.create({
         data: {
-          Todo: Todo,
-          IsDone: false,
-          Like: 0,
+          Todo: todo.Todo,
+          Like: todo.Like,
+          Project: todo.Project,
+          Date: null,
         },
       });
       return res.json(result);
@@ -24,7 +25,14 @@ export default async function handler(req, res) {
       const updateTodo = req.body;
       const result = await prisma.todos.update({
         where: { Id: updateTodo.Id },
-        data: { Todo: updateTodo.Todo, IsDone: updateTodo.IsDone, Like: updateTodo.Like },
+        data: {
+          Todo: updateTodo.Todo,
+          IsDone: updateTodo.IsDone,
+          Like: updateTodo.Like,
+          Comment: updateTodo.Comment,
+          Date: updateTodo.Date,
+          Project: updateTodo.Project,
+        },
       });
       return res.json(result);
     }

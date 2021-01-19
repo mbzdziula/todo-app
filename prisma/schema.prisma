@@ -13,7 +13,17 @@ generator client {
 model Todos {
   Id Int @id @default(autoincrement())
   Todo String
-  IsDone Boolean
-  Like Int
+  IsDone Boolean @default(false)
+  Like Int @default(0)
+  Comment String? @default("")
+  Date DateTime?
+  Project String? @default("")
+  CreatedAt DateTime @default(now())
+  UpdatedAt DateTime @updatedAt
+}
+
+model Projects {
+  Id Int @id @default(autoincrement())
+  Project String 
 }
 

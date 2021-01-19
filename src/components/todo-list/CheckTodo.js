@@ -1,10 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { doneTodo } from '../../redux/actions/todoActions';
+import PropTypes from 'prop-types';
+
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 import IconButton from '@material-ui/core/IconButton';
-import PropTypes from 'prop-types';
-import { doneTodo } from '../../redux/actions/todoActions';
-import { connect } from 'react-redux';
 
 function CheckTodo(props) {
   return props.element.IsDone ? (
