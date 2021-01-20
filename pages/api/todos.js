@@ -1,8 +1,10 @@
 import { PrismaClient } from '@prisma/client';
+import auth0 from './utils/auth0';
 
 const prisma = new PrismaClient();
 
-export default async function handler(req, res) {
+export default auth0.requireAuthentication(async function handler(req, res) {
+  const { user } = await auth0.getSession(req);
   switch (req.method) {
     case 'POST': {
       const todo = req.body;
@@ -12,6 +14,7 @@ export default async function handler(req, res) {
           Like: todo.Like,
           Project: todo.Project,
           Date: null,
+          User: user.sub,
         },
       });
       return res.json(result);
@@ -32,12 +35,16 @@ export default async function handler(req, res) {
           Comment: updateTodo.Comment,
           Date: updateTodo.Date,
           Project: updateTodo.Project,
+          ProjectId: updateTodo.ProjectId,
         },
       });
       return res.json(result);
     }
     default: {
       const result = await prisma.todos.findMany({
+        where: {
+          User: user.sub,
+        },
         orderBy: [
           {
             IsDone: 'asc',
@@ -53,4 +60,4 @@ export default async function handler(req, res) {
       return res.json(result);
     }
   }
-}
+});

@@ -17,8 +17,8 @@ export function handleChangeDate(date) {
   return { type: types.HANDLE_CHANGE_DATE, date };
 }
 
-export function handleChangeProject(event) {
-  return { type: types.HANDLE_CHANGE_PROJECT, event };
+export function handleChangeProject(element) {
+  return { type: types.HANDLE_CHANGE_PROJECT, element };
 }
 
 export function getTodosFromDb(todos) {

@@ -14,6 +14,7 @@ import {
   projectHandleChange,
   projectClearHandleEdit,
 } from '../redux/actions/projectActions';
+import { fetchTodos } from '../redux/actions/todoActions';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -32,10 +33,10 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import WorkIcon from '@material-ui/icons/Work';
 import CreateIcon from '@material-ui/icons/Create';
 import DeleteIcon from '@material-ui/icons/Delete';
-
 import TextField from '@material-ui/core/TextField';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const drawerWidth = 240;
 
@@ -86,15 +87,24 @@ function MainDrawer(props) {
     setShow(!show);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!props.currentProject.Project || /^\s*$/.test(props.currentProject.Project)) {
+    if (
+      !props.currentProject.Project ||
+      /^\s*$/.test(props.currentProject.Project) ||
+      props.projects.filter((element) => element.Project === props.currentProject.Project)
+        .length !== 0
+    ) {
       return;
     }
 
-    props.currentProject.Id === 0
-      ? props.newProject(props.currentProject.Project)
-      : props.editProject(props.currentProject);
+    if (props.currentProject.Id === 0) {
+      props.newProject(props.currentProject.Project);
+      return;
+    }
+
+    await props.editProject(props.currentProject);
+    await props.fetchTodos();
   };
 
   return (
@@ -124,8 +134,16 @@ function MainDrawer(props) {
             <ListItemIcon>
               <AccountCircleIcon className={classes.icon} />
             </ListItemIcon>
-            <ListItemText primary="Elo mordo!" />
+            <ListItemText primary={`${props.user}`} />
           </ListItem>
+          <a href="/api/logout">
+            <ListItem dense button>
+              <ListItemIcon>
+                <ExitToAppIcon className={classes.icon} />
+              </ListItemIcon>
+              <ListItemText primary="Wyloguj się" />
+            </ListItem>
+          </a>
         </List>
         <Divider light variant="middle" />
         <List>
@@ -170,12 +188,14 @@ function MainDrawer(props) {
                     dense
                     key={index}
                     selected={router.query.project === element.Project}
-                    onClick={() => {
-                      props.actionMainDrawer(false), handleClick();
-                    }}
                   >
                     <Link as={`../Projekty/${element.Project}`} href="/[category]/[project]">
-                      <ListItemText primary={element.Project} />
+                      <ListItemText
+                        primary={element.Project}
+                        onClick={() => {
+                          props.actionMainDrawer(false), handleClick();
+                        }}
+                      />
                     </Link>
                     <IconButton
                       disableRipple
@@ -189,7 +209,10 @@ function MainDrawer(props) {
                     <IconButton disableRipple disableFocusRipple size="small" edge="end">
                       <DeleteIcon
                         color="disabled"
-                        onClick={() => props.deleteProject(element.Id)}
+                        onClick={async () => {
+                          await props.deleteProject(element.Id);
+                          await props.fetchTodos();
+                        }}
                       />
                     </IconButton>
                   </ListItem>
@@ -202,7 +225,8 @@ function MainDrawer(props) {
                   onChange={props.projectHandleChange}
                   value={props.currentProject.Project}
                   placeholder="Dodaj nowy projekt"
-                  inputProps={{ style: { fontSize: '15px' } }}
+                  inputProps={{ style: { fontSize: '15px' }, maxLength: 20 }}
+                  maxLength={30}
                 />
                 <IconButton
                   disableRipple
@@ -243,6 +267,8 @@ MainDrawer.propTypes = {
   projects: PropTypes.object.isRequired,
   editProject: PropTypes.func.isRequired,
   projectClearHandleEdit: PropTypes.func.isRequired,
+  fetchTodos: PropTypes.func.isRequired,
+  user: PropTypes.string,
 };
 
 function mapStateToProps(state) {
@@ -261,6 +287,7 @@ const mapDispatchToProps = {
   projectHandleEdit,
   projectHandleChange,
   projectClearHandleEdit,
+  fetchTodos,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withWidth()(MainDrawer));

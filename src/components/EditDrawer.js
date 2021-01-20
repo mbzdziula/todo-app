@@ -90,12 +90,15 @@ function EditDrawer(props) {
               select
               label="Projekt"
               value={props.currentTask.Project}
-              onChange={props.handleChangeProject}
               variant="outlined"
             >
               <MenuItem value="">Skrzynka spraw</MenuItem>
               {props.projects.map((element, index) => (
-                <MenuItem key={index} value={element.Project}>
+                <MenuItem
+                  key={index}
+                  value={element.Project}
+                  onClick={() => props.handleChangeProject(element)}
+                >
                   {element.Project}
                 </MenuItem>
               ))}

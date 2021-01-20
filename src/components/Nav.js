@@ -65,6 +65,7 @@ function Nav(props) {
 Nav.propTypes = {
   mainDrawer: PropTypes.bool.isRequired,
   width: PropTypes.oneOf(['lg', 'md', 'sm', 'xl', 'xs']).isRequired,
+  user: PropTypes.string,
 };
 
 function mapStateToProps(state) {
