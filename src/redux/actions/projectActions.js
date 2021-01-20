@@ -22,7 +22,7 @@ const axiosProjects = axios.create({
 });
 
 const axiosProjectsUpdate = axios.create({
-  baseURL: 'http://localhost:3000/api/uptade_project',
+  baseURL: 'https://todo-app-mb.herokuapp.com/api/uptade_project',
 });
 
 export function fetchProjects() {
