@@ -10,7 +10,7 @@ const todoReducer = (state = initialState, action) => {
     case types.HANDLE_CHANGE_DATE:
       return handleChangeDate(state, action.date);
     case types.HANDLE_CHANGE_PROJECT:
-      return handleChangeProject(state, action.event);
+      return handleChangeProject(state, action.element);
     case types.HANDLE_EDIT:
       return handleEdit(state, action.element);
     case types.GET_TODOS_FROM_DB:
@@ -28,11 +28,10 @@ const handleChange = (state, event) => {
   };
 };
 
-const handleChangeProject = (state, event) => {
-  const project = event.target.value;
+const handleChangeProject = (state, element) => {
   return {
     ...state,
-    currentTask: { ...state.currentTask, Project: project },
+    currentTask: { ...state.currentTask, Project: element.Project, ProjectId: element.Id },
   };
 };
 

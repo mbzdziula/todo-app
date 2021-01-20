@@ -21,6 +21,10 @@ const axiosProjects = axios.create({
   baseURL: 'http://localhost:3000/api/projects',
 });
 
+const axiosProjectsUpdate = axios.create({
+  baseURL: 'http://localhost:3000/api/uptade_project',
+});
+
 export function fetchProjects() {
   return (dispatch) => {
     axiosProjects.get('').then(async (response) => {
@@ -40,8 +44,9 @@ export function newProject(project) {
 
 export function deleteProject(id) {
   return async (dispatch) => {
-    const Project = { Id: id };
-    await axiosProjects.delete('', { data: Project });
+    await axiosProjects.delete('', { data: { Id: id } });
+    await axiosProjectsUpdate.delete('', { data: { Id: id } });
+
     dispatch(fetchProjects());
   };
 }
@@ -50,6 +55,7 @@ export function editProject(element) {
   return async (dispatch) => {
     const Project = element;
     await axiosProjects.patch('', Project);
+    await axiosProjectsUpdate.patch('', Project);
     dispatch(fetchProjects());
   };
 }

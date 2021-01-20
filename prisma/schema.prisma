@@ -18,6 +18,8 @@ model Todos {
   Comment String? @default("")
   Date DateTime?
   Project String? @default("")
+  ProjectId Int?
+  User String
   CreatedAt DateTime @default(now())
   UpdatedAt DateTime @updatedAt
 }
@@ -25,5 +27,6 @@ model Todos {
 model Projects {
   Id Int @id @default(autoincrement())
   Project String 
+  User String
 }
 

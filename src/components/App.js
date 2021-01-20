@@ -1,12 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Todo from './Todo';
 
-function App() {
+function App(props) {
   return (
     <>
-      <Todo />
+      <Todo user={props.user} />
     </>
   );
 }
+
+App.propTypes = {
+  user: PropTypes.string,
+};
 
 export default App;

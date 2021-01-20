@@ -27,6 +27,10 @@ const useStyles = makeStyles((theme) => ({
   },
   row: {
     cursor: 'pointer',
+    height: '20px',
+  },
+  icon: {
+    margin: theme.spacing(20),
   },
 }));
 

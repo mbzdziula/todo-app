@@ -6,6 +6,7 @@ export const initialTodos = {
     Comment: '',
     Date: '',
     Project: '',
+    ProjectId: '',
   },
 };
 
